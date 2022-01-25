@@ -1,0 +1,98 @@
+/*General*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200&display=swap');
+
+
+* {
+    color: aliceblue;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Robot Mono', monospace;
+    overflow: visible;
+}
+
+/*Nav bar*/
+.navbar {
+    background-color: #1d2731;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar img {
+    float: left;
+    padding: 14px 16px;
+}
+
+.navbar img:hover {
+    background: #ffcb05;
+    color: #1d2731;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background: #ffcb05;
+    color: #1d2731;
+}
+
+button {
+    color: #ffcb05;
+    background-color: #1d2731;
+    border: 1px solid #ffcb05;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0px 0px;
+    cursor: pointer;
+}
+
+button:hover {
+    color: #1d2731;
+    background-color: #ffcb05;
+    border: 1px solid #1d2731;
+}
+
+#right {
+    float: right;
+}
+
+/*Body*/
+body {
+    background-color: #0b3c5d;
+    margin-top: 65px;
+    margin-bottom: 65px;
+}
+
+div.body {
+    background-color: #235789;
+    display: flex;
+    width: 90%;
+    margin: auto;
+    border-radius: 15px;
+    align-items: center;
+}
+
+/*Footer*/
+footer {
+    position: fixed;
+    width: 100%;
+    left: 0px;
+    height: 50px;
+    bottom: 0px;
+    background-color: #1d2731;
+}
