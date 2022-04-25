@@ -19,14 +19,14 @@
     <nav class="navbar">
         <ul>
             <li><img src="media/logo.png" alt="Logo"></li>
-            <li><a href="">Home</a></li>
-            <li><a href="">News</a></li>
-            <li><a href="">Contact</a></li>
-            <li><a href="">About</a></li>
+            <li><a href="index.php">Kezdőlap</a></li>
+            <li><a href="src/categories.php">Kategóriák</a></li>
+            <li><a href="src/contact.php">Kapcsolat</a></li>
             <?php if(!$auth->is_authenticated()) : ?>
-                <li><button id="right" ><a href="src/login.php">Sign In</a></button></li>
+                <li><a id="right" href="src/login.php">Bejelentkezés</a></li>
             <?php else : ?>
-                <li><button id="right"><a href="src/logout.php">Sign Out</a></button></li>
+                <li><a href="src/profile.php">Profil</a></li>
+                <li><a id="right" href="src/logout.php">Kijelentkezés</a></li>
             <?php endif ?>
         </ul> 
     </nav>
