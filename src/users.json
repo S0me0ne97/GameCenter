@@ -1,0 +1,47 @@
+{
+    "61e956fa31d79": {
+        "username": "balint",
+        "email": "sdf@ss.sa",
+        "password": "$2y$10$8lPO\/QNK2stijceAS7mdOu4jN\/aMQJm.Ft0KTBw.xxPURr3sSfMhm",
+        "roles": [
+            "user"
+        ],
+        "id": "61e956fa31d79"
+    },
+    "61e97b9b8932e": {
+        "username": "admin",
+        "email": "admin@elstadion.hu",
+        "password": "$2y$10$oArAs9YNg5j.WNxl8VrQeO\/nH7TqYdpqsWM358LXdI\/kHRNuqUK2W",
+        "roles": [
+            "admin"
+        ],
+        "id": "61e97b9b8932e"
+    },
+    "61e982e8561ab": {
+        "username": "Jakab",
+        "email": "gipszjakab@gmail.com",
+        "password": "$2y$10$8B1jjU4EmDROurCGT7cmuuu7PJfIvj41D.D9U99qpuYPcLCB.V5TW",
+        "roles": [
+            "user"
+        ],
+        "id": "61e982e8561ab"
+    },
+    "61e983a93a558": {
+        "username": "Anna",
+        "email": "majoranna@gmail.com",
+        "password": "$2y$10$vgb3gKZ671jovlAKGxexp.CNQutogBk5rJ6GJj4rHmBh7LAK8jwZq",
+        "roles": [
+            "user"
+        ],
+        "id": "61e983a93a558"
+    },
+    "6266c0b6b6688": {
+        "username": "balint1",
+        "email": "vbalint1997@gmail.com",
+        "password": "$2y$10$9.S6DprvlKNZ05It.rLbJ.X.10hiRTDSBek8iXVDuuTHmw40YRGg.",
+        "roles": [
+            "user"
+        ],
+        "id": "6266c0b6b6688"
+    }
+}

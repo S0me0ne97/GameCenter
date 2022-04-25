@@ -1,3 +1,11 @@
+<?php
+    include_once('src/userStorage.php');
+    include_once('src/auth.php');
+
+    session_start();
+    $auth = new Auth(new UserStorage());
+?>
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -15,7 +23,11 @@
             <li><a href="">News</a></li>
             <li><a href="">Contact</a></li>
             <li><a href="">About</a></li>
-            <li><button id="right">Sign In</button></li>
+            <?php if(!$auth->is_authenticated()) : ?>
+                <li><button id="right" ><a href="src/login.php">Sign In</a></button></li>
+            <?php else : ?>
+                <li><button id="right"><a href="src/logout.php">Sign Out</a></button></li>
+            <?php endif ?>
         </ul> 
     </nav>
 
