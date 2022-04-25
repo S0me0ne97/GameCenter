@@ -87,6 +87,11 @@ div.body {
     align-items: center;
 }
 
+input, textarea{
+    color: #000;
+    text-align: left;
+}
+
 /*Footer*/
 footer {
     position: fixed;
