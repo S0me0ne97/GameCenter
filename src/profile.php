@@ -4,6 +4,21 @@
 
     session_start();
     $auth = new Auth(new UserStorage());
+
+    $name = "6266c0b6b6688";
+    $time = "12:34:56";
+    $games[] = "";
+
+    function getUser($authorId)
+    {
+        $userStorage = new UserStorage();
+        return $userStorage->findById($authorId)['username'];
+    }
+    function getEmail($authorId)
+    {
+        $userStorage = new UserStorage();
+        return $userStorage->findById($authorId)['email'];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -29,6 +44,12 @@
             <?php endif ?>
         </ul> 
     </nav>
+    <h1>Profil</h1>
+    <p>Név: <?= getUser($name)?></p>
+    <p>E-mail: <?= getEmail($name)?></p>
+    <p>Összes lejátszott idő: <?= $time ?></p>
+    <p>Játékok: </p>
+    
     <footer>
         <p>  
             Készítette: Vida Bálint - E93R1V
