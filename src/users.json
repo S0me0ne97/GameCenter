@@ -7,6 +7,9 @@
         "roles": [
             "admin"
         ],
+        "liked": [
+            3
+        ],
         "id": "62681e8f1ff6d"
     },
     "62682687e2641": {
@@ -16,6 +19,10 @@
         "password": "$2y$10$MJkfvj0QLt398Y67IjLvtOF0kwwv2pdQFnpeJhyFafnH1vcEzOZEq",
         "roles": [
             "user"
+        ],
+        "liked": [
+            3,
+            2
         ],
         "id": "62682687e2641"
     }

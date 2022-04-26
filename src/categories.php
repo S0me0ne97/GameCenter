@@ -9,6 +9,38 @@
     $gameStorage = new GameStorage();
     $games = $gameStorage->getAll();
 
+    $reversedOrder = true;
+    $category = "logic";
+
+    function chooseCateg() {
+        global $games;
+        return array_filter($games, function($value){
+            global $category;
+            return $value["type"] == $category;
+        });
+    }
+
+    function onlyLiked(){
+        global $games;
+        return array_filter($games, function($value) {
+            global $auth;
+            return in_array($value["id"], $auth->authenticated_user()["liked"]);
+        });
+    }
+
+    function sortByRating($reversed) {
+        global $games;
+        usort($games, function ($item1, $item2) {
+            return $item2['rating'] <=> $item1['rating'];
+        });
+        if (!$reversed) {
+            return $games;
+        }
+        else {
+            return array_reverse($games);
+        }
+    }
+
     function getHighScoresInOrder($key) {
         global $games;
         usort($games[$key]["highscores"], function ($item1, $item2) {
@@ -43,7 +75,7 @@
     </nav>
 
     <div>
-        <?php foreach ($games as $key => $value) : ?>
+        <?php foreach (chooseCateg() as $key => $value) : ?>
             <p>
                 <hr>
                 Név: <?= $value['name'] ?><br>
