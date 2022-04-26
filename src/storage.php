@@ -43,6 +43,7 @@
       function findOne(array $params = []);
       function update(string $id, $record);
       function delete(string $id);
+      function getAll();
     
       function findMany(callable $condition);
       function updateMany(callable $condition, callable $updater);
@@ -72,6 +73,11 @@
         }
         $this->contents[$id] = $record;
         return $id;
+      }
+
+      public function getAll()
+      {
+        return $this->contents; 
       }
     
       public function findById(string $id) {

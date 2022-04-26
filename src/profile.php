@@ -45,9 +45,9 @@
         </ul> 
     </nav>
     <h1>Profil</h1>
-    <p>Név: <?= getUser($name)?></p>
-    <p>E-mail: <?= getEmail($name)?></p>
-    <p>Összes lejátszott idő: <?= $time ?></p>
+    <p>Név: <?= $auth->authenticated_user()['username']?></p>
+    <p>E-mail: <?= $auth->authenticated_user()['email']?></p>
+    <p>Összes lejátszott idő: <?= $auth->authenticated_user()['playedtime'] ?></p>
     <p>Játékok: </p>
     
     <footer>
