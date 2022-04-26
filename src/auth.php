@@ -26,6 +26,7 @@ class Auth {
         'playedtime'=> 0,
         'password'  => password_hash($data['password'], PASSWORD_DEFAULT),
         "roles"     => ["user"],
+        "liked"     => []
       ];
       return $this->user_storage->add($user);
     }
