@@ -1,9 +1,21 @@
 <?php
     include_once('src/userStorage.php');
+    include_once('src/gameStorage.php');
     include_once('src/auth.php');
 
     session_start();
     $auth = new Auth(new UserStorage());
+
+    $gameStorage = new GameStorage();
+    $games = $gameStorage->getAll();
+
+    function getHighScoresInOrder($key) {
+        global $games;
+        usort($games[$key]["highscores"], function ($item1, $item2) {
+            return $item2['score'] <=> $item1['score'];
+        });
+        return $games[$key]["highscores"];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -29,6 +41,26 @@
             <?php endif ?>
         </ul> 
     </nav>
+
+    <div>
+        <?php foreach ($games as $key => $value) : ?>
+            <p>
+                <hr>
+                Név: <?= $value['name'] ?><br>
+                Típus: <?= $value['type'] ?><br>
+                Rating: <?= $value['rating'] ?><br>
+                Leírás: <?= $value['text'] ?><br>
+                Legjobb eredmények:
+                <ul>
+                    <?php foreach (getHighScoresInOrder($key) as $id => $data) : ?>
+                        <li> <?=$data["name"]?>:<?=$data["score"]?> </li>
+                    <?php endforeach; ?>
+                </ul>  
+                <br>
+            </p>
+        <?php endforeach; ?>  
+    </div>
+
     <footer>
         <p>  
             Készítette: Vida Bálint - E93R1V

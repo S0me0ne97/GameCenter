@@ -1,7 +1,7 @@
 <?php
 include_once('storage.php');
 
-class GamesStorage extends Storage {
+class GameStorage extends Storage {
     public function __construct()
     {
         parent::__construct(new JsonIO('src/games.json'));
