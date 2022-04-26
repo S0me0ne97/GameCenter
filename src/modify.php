@@ -1,15 +1,13 @@
 <?php
 
-include_once('teamStorage.php');
-include_once('matchStorage.php');
 include_once('userStorage.php');
-include_once('commentStorage.php');
+include_once('contactStorage.php');
 include_once('auth.php');
 
-$id = $_GET['match'];
+$id = $_GET['contact'];
 
-$matchStorage = new MatchStorage();
-$match = $matchStorage->findById($id);
+$contactStorage = new ContactStorage();
+$contact = $contactStorage->findById($id);
 
 $errors = [];
 
@@ -21,7 +19,7 @@ if(count($_POST) > 0) {
     if (validate($_POST, $match, $errors)) {
       $matchStorage->update($id, $match);
       
-      header("Location: index.php");
+      header("Location: ../index.php");
     }
   }
   else {
@@ -68,11 +66,6 @@ function validate($post, &$data, &$errors) {
     return $errors['date'] === '' && $errors['team1'] === '' && $errors['team2'] === '';
 }
 
-function getTeam($teamId)
-{
-    $teamStorage = new TeamStorage();
-    return $teamStorage->findById($teamId)['name'];
-}
 ?>
 
 <!DOCTYPE html>

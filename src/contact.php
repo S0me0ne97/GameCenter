@@ -1,9 +1,13 @@
 <?php
     include_once('src/userStorage.php');
+    include_once('src/contactStorage.php');
     include_once('src/auth.php');
 
     session_start();
     $auth = new Auth(new UserStorage());
+
+    $contactStorage = new ContactStorage();
+    $contacts = $contactStorage->getAll();
 
     $data = [];
     $errors = [];
@@ -21,7 +25,11 @@
             $data['text'] = $_POST['text'];
             $data['subject'] = $_POST['subject'];
             $data['date'] = date("Y-m-d");
-            #$contactStorage->add($data);
+            $contactStorage->add($data);
+            $_POST['name'] = '';
+            $_POST['email'] = '';
+            $_POST['text'] = '';
+            header("Refresh:0");
         }
     }
     
@@ -96,7 +104,22 @@
         
         <button type="submit">Elküld</button>
     </form>
-
+    
+    <?php if($auth->authorize(["admin"])) : ?>
+        <div>
+            <?php foreach ($contacts as $key => $value) : ?>
+                <p>
+                    <hr>
+                    Név: <?= $value['name'] ?><br>
+                    Email: <?= $value['email'] ?><br>
+                    Tárgy: <?= $value['subject'] ?><br>
+                    Üzenet: <?= $value['text'] ?><br>
+                    <a href="delete.php?contact=<?= $key ?>">Törlés</a>
+                </p>
+            <?php endforeach; ?>  
+        </div>
+    <?php endif; ?>
+        
     <footer>
         <p>  
             Készítette: Vida Bálint - E93R1V

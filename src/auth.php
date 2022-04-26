@@ -23,6 +23,7 @@ class Auth {
       $user = [
         'username'  => $data['username'],
         'email'     => $data['email'],
+        'playedtime'=> 0,
         'password'  => password_hash($data['password'], PASSWORD_DEFAULT),
         "roles"     => ["user"],
       ];

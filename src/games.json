@@ -1,0 +1,69 @@
+{
+    "1": {
+        "name": "Space Shooter",
+        "type": "shooter",
+        "rating": 0,
+        "text": "valami",
+        "id": "1",
+        "highscores": {
+            "1": {
+                "name": "balint",
+                "score": "10"
+            },
+            "2": {
+                "name": "peti",
+                "score": "920"
+            },
+            "3": {
+                "name": "anna",
+                "score": "100"
+            }
+        }
+    },
+    "2": {
+        "name": "Game1",
+        "type": "action",
+        "rating": 1,
+        "text": "valami",
+        "id": "2",
+        "highscores": {
+            "1": {
+                "name": "balint",
+                "score": "80"
+            },
+            "2": {
+                "name": "peti",
+                "score": "90"
+            },
+            "3": {
+                "name": "anna",
+                "score": "100"
+            }
+        }
+    },
+    "3": {
+        "name": "Game2",
+        "type": "logic",
+        "rating": 2,
+        "text": "valami",
+        "id": "3",
+        "highscores": {
+            "1": {
+                "name": "balint",
+                "score": "80"
+            },
+            "2": {
+                "name": "peti",
+                "score": "90"
+            }
+        }
+    },
+    "4": {
+        "name": "Game3",
+        "type": "logic",
+        "rating": 3,
+        "text": "valami",
+        "id": "4",
+        "highscores": []
+    }
+}
