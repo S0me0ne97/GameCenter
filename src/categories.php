@@ -8,21 +8,22 @@
 
     $gameStorage = new GameStorage();
     $games = $gameStorage->getAll();
-
-    $reversedOrder = true;
-    $category = "logic";
+    sortByRating(false);
+    $category = "";
 
     function chooseCateg() {
         global $games;
-        return array_filter($games, function($value){
+        $games = array_filter($games, function($value){
             global $category;
             return $value["type"] == $category;
         });
     }
 
     function onlyLiked(){
+        global $auth;
+        $auth = new Auth(new UserStorage());
         global $games;
-        return array_filter($games, function($value) {
+        $games = array_filter($games, function($value) {
             global $auth;
             return in_array($value["id"], $auth->authenticated_user()["liked"]);
         });
@@ -33,11 +34,8 @@
         usort($games, function ($item1, $item2) {
             return $item2['rating'] <=> $item1['rating'];
         });
-        if (!$reversed) {
-            return $games;
-        }
-        else {
-            return array_reverse($games);
+        if ($reversed) {
+            $games = array_reverse($games);
         }
     }
 
@@ -47,6 +45,31 @@
             return $item2['score'] <=> $item1['score'];
         });
         return $games[$key]["highscores"];
+    }
+
+    if(array_key_exists('rating', $_POST)) {
+        sortByRating(false);
+    }
+    if(array_key_exists('revrating', $_POST)) {
+        sortByRating(true);
+    }
+    if(array_key_exists('action', $_POST)) {
+        global $category;
+        $category = "action";
+        chooseCateg();
+    }
+    if(array_key_exists('logic', $_POST)) {
+        global $category;
+        $category = "logic";
+        chooseCateg();
+    }
+    if(array_key_exists('shooter', $_POST)) {
+        global $category;
+        $category = "shooter";
+        chooseCateg();
+    }
+    if(array_key_exists('liked', $_POST)) {
+        onlyLiked();
     }
 ?>
 <!DOCTYPE html>
@@ -73,9 +96,24 @@
             <?php endif ?>
         </ul> 
     </nav>
-
+    <form action="" method="post">
+        <input type="submit" name="rating"
+                class="button" value="Értékelés alapján" />
+        <input type="submit" name="revrating"
+                class="button" value="Értékelés alapján fordítva" />
+        <?php if($auth->is_authenticated()) : ?>
+            <input type="submit" name="liked"
+                    class="button" value="Kedvelt" />
+        <?php endif ?>
+        <input type="submit" name="action"
+                class="button" value="Akció" />
+        <input type="submit" name="shooter"
+                class="button" value="Lövödözős" />
+        <input type="submit" name="logic"
+                class="button" value="Logikai" />
+    </form>
     <div>
-        <?php foreach (chooseCateg() as $key => $value) : ?>
+        <?php foreach ($games as $key => $value) : ?>
             <p>
                 <hr>
                 Név: <?= $value['name'] ?><br>
@@ -87,8 +125,11 @@
                     <?php foreach (getHighScoresInOrder($key) as $id => $data) : ?>
                         <li> <?=$data["name"]?>:<?=$data["score"]?> </li>
                     <?php endforeach; ?>
-                </ul>  
+                </ul>
                 <br>
+                <?php if($auth->is_authenticated()) : ?>
+                    <a href="like.php?liked=<?= $value["id"] ?>">Kedvel</a>
+                <?php endif ?>
             </p>
         <?php endforeach; ?>  
     </div>
@@ -97,6 +138,6 @@
         <p>  
             Készítette: Vida Bálint - E93R1V
         </p>
-    </footer>    
+    </footer>
 </body>
 </html>

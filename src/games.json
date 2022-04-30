@@ -2,7 +2,7 @@
     "1": {
         "name": "Space Shooter",
         "type": "shooter",
-        "rating": 0,
+        "rating": 10,
         "text": "valami",
         "id": "1",
         "highscores": {
@@ -23,7 +23,7 @@
     "2": {
         "name": "Game1",
         "type": "action",
-        "rating": 1,
+        "rating": 3,
         "text": "valami",
         "id": "2",
         "highscores": {
@@ -44,7 +44,7 @@
     "3": {
         "name": "Game2",
         "type": "logic",
-        "rating": 2,
+        "rating": 4,
         "text": "valami",
         "id": "3",
         "highscores": {
