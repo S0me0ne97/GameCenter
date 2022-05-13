@@ -101,3 +101,9 @@ footer {
     bottom: 0px;
     background-color: #1d2731;
 }
+
+canvas {
+    /*border: 3px solid #000000;*/
+    background-color: #000000;
+    /*border-radius: 25px;*/
+}

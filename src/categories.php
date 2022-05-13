@@ -130,6 +130,7 @@
                 <?php if($auth->is_authenticated()) : ?>
                     <a href="like.php?liked=<?= $value["id"] ?>">Kedvel</a>
                 <?php endif ?>
+                <a href="<?= $value['page'] ?>">Játék</a>
             </p>
         <?php endforeach; ?>  
     </div>

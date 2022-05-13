@@ -18,7 +18,8 @@
                 "name": "anna",
                 "score": "100"
             }
-        }
+        },
+        "page": "space_shooter.php"
     },
     "2": {
         "name": "Game1",
@@ -39,7 +40,8 @@
                 "name": "anna",
                 "score": "100"
             }
-        }
+        },
+        "page": "Game1.php"
     },
     "3": {
         "name": "Game2",
@@ -56,7 +58,8 @@
                 "name": "peti",
                 "score": "90"
             }
-        }
+        },
+        "page": "Game2.php"
     },
     "4": {
         "name": "Game3",
@@ -64,6 +67,7 @@
         "rating": 3,
         "text": "valami",
         "id": "4",
-        "highscores": []
+        "highscores": [],
+        "page": "Game3.php"
     }
 }
