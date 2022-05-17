@@ -10,12 +10,22 @@ var hardbtn = document.getElementById("hard");
 
 var gameDiv = document.getElementById("game");
 var menuDiv = document.getElementById("menu");
+var savesDiv = document.getElementById("savesdiv");
+
+var saveData = document.getElementById("data");
+var passData = document.getElementById("passdata");
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var canvas_height = canvas.height;
 var canvas_width = canvas.width;
 
+let json_data;
+let gamesObj = [];
+let gamesArr = [];
+let canvasArr = [];
+
+var gameVisible = true;
 var ship;
 var enemies;
 var powerups;
@@ -49,6 +59,7 @@ var images = {
     explosion: new Image(),
     powerup: new Image()
 }
+
 images.bg.src = '../media/bg.png';
 images.ship.src = '../media/ship.png';
 images.enemy.src = '../media/enemie_r.png';
@@ -131,6 +142,104 @@ function startNewGame(diff) {
 
 }
 
+function loadJSON() {
+    json_data = JSON.parse(passData.innerHTML);
+    gamesObj = [];
+    for(let i in json_data){
+        gamesObj.push([i, json_data [i]]);
+    }
+    gamesArr = [];
+    for (const element of gamesObj) {
+        gamesArr.push(JSON.parse(element[1]["gamedata"]));
+    }
+    let divstr = "<br><ul>";
+    let i = 0;
+    gamesArr.forEach(elem => {
+        divstr += "<li>";
+        divstr += "<canvas id=\"" + i + "\" width=" + 500 + " height=" + 700 + "></canvas><br>";
+        divstr += "Pontok: ";
+        divstr += elem.points;
+        divstr += " Eltelt idő: ";
+        divstr += elem.gameTime;
+        divstr += " Élet: ";
+        divstr += elem.ship.life;
+        divstr += "</li><br><br>";
+        ++i;
+    })
+    divstr += "</ul>"
+    savesDiv.innerHTML = divstr;
+    for (let index = 0; index < gamesArr.length; index++) {
+        canvasArr.push(document.getElementById(index));
+    }
+    i = 0
+    canvasArr.forEach(element => {
+        drawMiniCanvas(element, gamesArr[i]);
+        ++i;
+    });
+}
+
+function drawMiniCanvas(minicanvas, data) {
+    var minictx = minicanvas.getContext('2d');
+
+    minictx.drawImage(images.bg, 0, 0, minicanvas.width, minicanvas.height);
+    
+    //hajó
+    data.ship.x = data.ship.x > minicanvas.width - data.ship.width ? minicanvas.width - data.ship.width : data.ship.x;
+    data.ship.x = data.ship.x < 0 ? 0 : data.ship.x;
+    
+    if (gameState !== 'END') {
+        minictx.drawImage(images.ship, data.ship.x, data.ship.y, data.ship.width, data.ship.height);
+    }
+    else
+    {
+        minictx.drawImage(images.explosion,
+            3 * 192, 1 * 192, 192, 192,
+            data.ship.x, data.ship.y, data.ship.width, data.ship.height);
+    }
+
+    //ellenségek
+    data.enemies.forEach(enemy => {
+        minictx.drawImage(images.enemy, enemy.x, enemy.y, enemy.width, enemy.height);
+    });
+
+    //lövedékek
+    data.bullets.forEach(bullet => {
+        minictx.fillStyle = bullet.color;
+        minictx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+    })
+
+    //powerupok
+    data.powerups.forEach(item => {
+        switch (item.type) {
+            case 0:
+                minictx.drawImage(images.powerup,
+                    redPos.x * 280, redPos.y * 280,  280,  280,
+                    item.x, item.y, item.width, item.height);
+                break;
+            case 1:
+                minictx.drawImage(images.powerup,
+                    bluePos.x * 280, bluePos.y * 280,  280,  280,
+                    item.x, item.y, item.width, item.height);
+                break;
+            default:
+                minictx.drawImage(images.powerup,
+                    greenPos.x * 280, greenPos.y * 280,  280,  280,
+                    item.x, item.y, item.width, item.height);
+                break;
+        }
+    });
+
+    //data
+    minictx.fillStyle = 'white';
+    minictx.font = '15px Courier New';
+    minictx.fillText(`Points: ${data.points}`, 10, 10);
+    minictx.fillText(`Life: ${data.ship.life}`, 10, 30);
+    minictx.fillText(`Kék: ${data.ship.blue}s`, 10, 50);
+    minictx.fillText(`Zöld: ${data.ship.green}s`, 10, 70);
+
+    console.log(data);
+}
+
 function showText(txt) {
     draw();
     ctx.fillStyle = 'white';
@@ -140,9 +249,9 @@ function showText(txt) {
 
 function startAnimation()
 {
-    showText('1');
+    showText('3');
     setTimeout(showText, 1000, '2');
-    setTimeout(showText, 2000, '3');
+    setTimeout(showText, 2000, '1');
 }
 
 function setTimeNow() {
@@ -394,6 +503,7 @@ function onKeyUp(event) {
 }
 
 function onStartClicked() {
+    if (gameState === 'LOADPAGE') return;
     startbtn.innerHTML= "Új Játék";
     if (gameState === 'NOTYETSTARTED') {
         gameDiv.toggleAttribute('hidden');
@@ -416,9 +526,12 @@ function onStartClicked() {
 }
 
 function onPauseClicked() {
+    if (gameState === 'LOADPAGE') return;
     if (gameState === 'INGAME') {
+        pausebtn.innerHTML = "Vissza a játékhoz";
         gameState = 'PAUSED';
     } else if(gameState === 'PAUSED') {
+        pausebtn.innerHTML = "Pause";
         gameState = 'INGAME';
         startAnimation();
         setTimeout(setTimeNow, 3000);
@@ -427,11 +540,35 @@ function onPauseClicked() {
 }
 
 function onSaveClicked() {
-    
-}
+    if (gameState === 'LOADPAGE') return;
+    gameState = 'PAUSED';
+    var gameObj = {
+        ship,
+        enemies,
+        powerups,
+        bullets,
+        pressedKey,
+        gameState,
+        points,
+        gameTime
+    }
+    var jsonObj = JSON.stringify(gameObj);
+
+    location.replace('save_ss.php?data='+jsonObj);
+}  
 
 function onLoadClicked() {
-    console.log("load");
+    gameDiv.toggleAttribute("hidden");
+    if (gameState === 'INGAME') {
+        loadbtn.innerHTML = "Vissza a játékhoz";
+        gameState = 'LOADPAGE';
+    } else if(gameState === 'LOADPAGE') {
+        loadbtn.innerHTML = "Betöltés";
+        gameState = 'INGAME';
+        startAnimation();
+        setTimeout(setTimeNow, 3000);
+        setTimeout(gameLoop, 3000);
+    }
 }
 //#endregion Function definitions
 
@@ -446,3 +583,5 @@ loadbtn.addEventListener('click', onLoadClicked);
 
 //#region Game loop
 //#endregion Game loop
+
+loadJSON();

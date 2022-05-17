@@ -1,13 +1,15 @@
 <?php
 include_once('src/userStorage.php');
-include_once('src/gameStorage.php');
+include_once('src/gamesavesstorage.php');
 include_once('src/auth.php');
 
 session_start();
 $auth = new Auth(new UserStorage());
 
-$gameStorage = new GameStorage();
-$games = $gameStorage->getAll();
+$savesStorage = new GameSavesStorage();
+$saves = $savesStorage->getAll();
+
+$savesJSON = json_encode($saves);
 ?>
 
 <!DOCTYPE html>
@@ -34,8 +36,6 @@ $games = $gameStorage->getAll();
             <?php endif ?>
         </ul> 
     </nav>
-    
-
     <div id="menu">
         <input type="radio" id="easy" name="difficulty" value="easy" checked>
         <label for="easy">Könnyű</label>
@@ -54,6 +54,10 @@ $games = $gameStorage->getAll();
         <canvas id="canvas" width="500" height="700"></canvas>
     </div>
 
+    
+    <div id="savesdiv"></div>
+    
+    <div id="passdata" hidden><?= $savesJSON ?></div>
     <script src="js/space_shooter.js" type="module"></script>
 </body>
 </html>
