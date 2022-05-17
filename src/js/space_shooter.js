@@ -3,54 +3,115 @@ var startbtn = document.getElementById("startbtn");
 var pausebtn = document.getElementById("pause");
 var savebtn = document.getElementById("save");
 var loadbtn = document.getElementById("load");
+
+var easybtn = document.getElementById("easy");
+var mediumbtn = document.getElementById("medium");
+var hardbtn = document.getElementById("hard");
+
 var gameDiv = document.getElementById("game");
 var menuDiv = document.getElementById("menu");
+
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var canvas_height = canvas.height;
 var canvas_width = canvas.width;
 
 var ship;
-
 var enemies;
-
 var powerups;
-
 var bullets;
-
 var lastTime;
-
 var pressedKey;
-
 var gameState = 'NOTYETSTARTED' // INGAME, END, PAUSED
-
 var points;
+var enemyProb;
+var bulletProb;
+var killPoint;
+var gameTime;
+
+var bluePos = {
+    x: 0,
+    y: 2
+}
+var redPos = {
+    x: 1,
+    y: 2
+}
+var greenPos = {
+    x: 0,
+    y: 1
+}
 
 var images = {
     bg: new Image(),
     ship: new Image(),
-    enemie: new Image(),
-    explosion: new Image()
+    enemy: new Image(),
+    explosion: new Image(),
+    powerup: new Image()
 }
 images.bg.src = '../media/bg.png';
 images.ship.src = '../media/ship.png';
-images.enemie.src = '../media/enemie_r.png';
+images.enemy.src = '../media/enemie_r.png';
 images.explosion.src = '../media/explosion.png';
+images.powerup.src = '../media/powerups.png';
 
 //#endregion Variables
 
 //#region Function definitions
-function startNewGame() {
-    ship = 
-    {
-        width: 40,
-        height: 40,
-        x: (canvas_width - 40) / 2,
-        y: canvas_height - 40,
-        speed: 600,
-        dir: 0,
-        life: 3
-    };
+function startNewGame(diff) {
+    switch (diff) {
+        case 0:
+            ship = 
+            {
+                width: 40,
+                height: 40,
+                x: (canvas_width - 40) / 2,
+                y: canvas_height - 40,
+                speed: 600,
+                dir: 0,
+                life: 5,
+                blue: 0,
+                green: 0
+            };
+            enemyProb = 0.005;
+            bulletProb = 0.005;
+            killPoint = 10;
+            break;
+        case 1:
+            ship = 
+            {
+                width: 40,
+                height: 40,
+                x: (canvas_width - 40) / 2,
+                y: canvas_height - 40,
+                speed: 600,
+                dir: 0,
+                life: 5,
+                blue: 0,
+                green: 0
+            };
+            enemyProb = 0.006;
+            bulletProb = 0.006;
+            killPoint = 20;
+            break;
+        default:
+            ship = 
+            {
+                width: 40,
+                height: 40,
+                x: (canvas_width - 40) / 2,
+                y: canvas_height - 40,
+                speed: 600,
+                dir: 0,
+                life: 5,
+                blue: 0,
+                green: 0
+            };
+            enemyProb = 0.009;
+            bulletProb = 0.009;
+            killPoint = 50;
+            break;
+    }
 
     enemies = [];
 
@@ -65,6 +126,8 @@ function startNewGame() {
     gameState = 'INGAME' // INGAME, END, PAUSED
 
     points = 0;
+
+    gameTime = 0;
 
 }
 
@@ -84,6 +147,17 @@ function startAnimation()
 
 function setTimeNow() {
     lastTime = performance.now();
+}
+
+
+function timePass() {
+    ++gameTime;
+    ship.blue = ship.blue === 0 ? 0 : --ship.blue;
+    ship.green = ship.green === 0 ? 0 : --ship.green;
+    if (ship.blue === 0) {
+        ship.speed = 600;
+    }
+    setTimeout(timePass, 1000);
 }
 
 function gameLoop(now = performance.now()) {
@@ -115,7 +189,7 @@ function update(dt) {
     ship.x += ship.dir * ship.speed * dt;
     
     //ellenség    
-    if (Math.random() < 0.005) {
+    if (Math.random() < enemyProb) {
         enemies.push({
             x: generateRandom(0, canvas_width),
             y: 0,
@@ -127,16 +201,16 @@ function update(dt) {
         })
     }
 
-    enemies.forEach(enemie => {
-        enemie.x += enemie.vx * dt;
-        enemie.y += enemie.vy * dt;
-        if (enemie.y < 0 || enemie.y > canvas_height) {
-            enemie.alive = 0
+    enemies.forEach(enemy => {
+        enemy.x += enemy.vx * dt;
+        enemy.y += enemy.vy * dt;
+        if (enemy.y < 0 || enemy.y > canvas_height) {
+            enemy.alive = 0
         }
-        if (Math.random() < 0.005) {
+        if (Math.random() < bulletProb) {
             bullets.push({
-                x: enemie.x + enemie.width / 2 - 2,
-                y: enemie.y + 10,
+                x: enemy.x + enemy.width / 2 - 2,
+                y: enemy.y + 10,
                 width: 4,
                 height: 10,
                 speed: 500,
@@ -144,8 +218,9 @@ function update(dt) {
                 color: 'red'
             })
         }
-        if (isCollision(ship, enemie)) {
-            ship.life = 0;
+        if (isCollision(ship, enemy)) {
+            ship.life = ship.green === 0 ? 0 : ship.life;
+            enemy.alive = 0;
         }
     })
 
@@ -156,11 +231,24 @@ function update(dt) {
             bullet.alive = 0
         }
         if (bullet.color === 'yellow') {
-            enemies.forEach(enemie => {
-                if (isCollision(enemie, bullet)) {
-                    enemie.alive = 0;
+            enemies.forEach(enemy => {
+                if (isCollision(enemy, bullet)) {
+                    enemy.alive = 0;
                     bullet.alive = 0;
-                    points += 20;
+                    points += killPoint;
+
+                    //powerup
+                    if (Math.random() < 0.1) {
+                        powerups.push({
+                            x: enemy.x,
+                            y: enemy.y,
+                            width: 25,
+                            height: 25,
+                            speed: generateRandom(50, 120),
+                            alive: 1,
+                            type: generateRandom(0,100) % 3 
+                        })
+                    }
                 }
             })
         }
@@ -169,20 +257,42 @@ function update(dt) {
             if(isCollision(ship, bullet))
             {
                 bullet.alive = 0;
-                --ship.life;
+                ship.life = ship.green === 0 ? --ship.life : ship.life;
             }
+        }
+    })
+
+    powerups.forEach(item => {
+        item.y += item.speed * dt;
+        if (item.y > canvas_height) {
+            item.alive = 0
+        }
+        if (isCollision(ship, item)) {
+            switch (item.type) {
+                case 0:
+                    ++ship.life;
+                    break;
+                case 1:
+                    ship.speed = 800;
+                    ship.blue += 20;
+                    break;
+            
+                default:
+                    ship.green += 10;
+                    break;
+            }
+            item.alive = 0;
         }
     })
 
     //delete bullets
     bullets = bullets.filter(bullet => bullet.alive === 1);
-    //delete enemie
-    var oldLength =  enemies.length;
-    enemies = enemies.filter(enemie => enemie.alive === 1);
-    points += oldLength - enemies.length;
+    //delete enemy
+    enemies = enemies.filter(enemy => enemy.alive === 1);
+    //delete powerup
+    powerups = powerups.filter(item => item.alive === 1);
 
-
-    if (ship.life === 0) {
+    if (ship.life <= 0) {
         gameState = 'END'
     }
 }
@@ -207,8 +317,8 @@ function draw() {
 
     //ellenségek
     ctx.fillStyle = 'rgb(0, 200, 0)';
-    enemies.forEach(enemie => {
-        ctx.drawImage(images.enemie, enemie.x, enemie.y, enemie.width, enemie.height);
+    enemies.forEach(enemy => {
+        ctx.drawImage(images.enemy, enemy.x, enemy.y, enemy.width, enemy.height);
     });
 
     //lövedékek
@@ -217,11 +327,34 @@ function draw() {
         ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
     })
 
+    //powerupok
+    powerups.forEach(item => {
+        switch (item.type) {
+            case 0:
+                ctx.drawImage(images.powerup,
+                    redPos.x * 280, redPos.y * 280,  280,  280,
+                    item.x, item.y, item.width, item.height);
+                break;
+            case 1:
+                ctx.drawImage(images.powerup,
+                    bluePos.x * 280, bluePos.y * 280,  280,  280,
+                    item.x, item.y, item.width, item.height);
+                break;
+            default:
+                ctx.drawImage(images.powerup,
+                    greenPos.x * 280, greenPos.y * 280,  280,  280,
+                    item.x, item.y, item.width, item.height);
+                break;
+        }
+    });
+
     //data
     ctx.fillStyle = 'white';
-    ctx.font = '10px Courier New';
+    ctx.font = '15px Courier New';
     ctx.fillText(`Points: ${points}`, 10, 10);
     ctx.fillText(`Life: ${ship.life}`, 10, 30);
+    ctx.fillText(`Kék: ${ship.blue}s`, 10, 50);
+    ctx.fillText(`Zöld: ${ship.green}s`, 10, 70);
 
     //Vege
     if (gameState === 'END') {
@@ -265,9 +398,20 @@ function onStartClicked() {
     if (gameState === 'NOTYETSTARTED') {
         gameDiv.toggleAttribute('hidden');
     }
-    startNewGame();
+
+    if (easybtn.checked) {
+        startNewGame(0);
+    }
+    if (mediumbtn.checked) {
+        startNewGame(1);
+    }
+    if (hardbtn.checked) {
+        startNewGame(2);
+    }
+
     startAnimation();
     setTimeout(setTimeNow, 3000);
+    setTimeout(timePass, 3000);
     setTimeout(gameLoop, 3000);
 }
 
