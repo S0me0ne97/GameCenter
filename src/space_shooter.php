@@ -34,7 +34,25 @@ $games = $gameStorage->getAll();
             <?php endif ?>
         </ul> 
     </nav>
-    <canvas id="canvas" width="500" height="700"></canvas>
+    
+
+    <div id="menu">
+        <input type="radio" id="easy" name="difficulty" value="easy" checked>
+        <label for="easy">Könnyű</label>
+        <input type="radio" id="medium" name="difficulty" value="medium">
+        <label for="medium">Közepes</label>
+        <input type="radio" id="hard" name="difficulty" value="hard">
+        <label for="hard">Nehéz</label>
+        <button id="startbtn">Start</button>
+        |
+        <button id="pause">Pause</button>
+        <button id="save">Mentés</button>
+        <button id="load">Betöltés</button><br>
+    </div>
+    <br>
+    <div id="game" hidden>
+        <canvas id="canvas" width="500" height="700"></canvas>
+    </div>
 
     <script src="js/space_shooter.js" type="module"></script>
 </body>

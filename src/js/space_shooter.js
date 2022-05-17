@@ -1,33 +1,30 @@
 //#region Variables
+var startbtn = document.getElementById("startbtn");
+var pausebtn = document.getElementById("pause");
+var savebtn = document.getElementById("save");
+var loadbtn = document.getElementById("load");
+var gameDiv = document.getElementById("game");
+var menuDiv = document.getElementById("menu");
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var canvas_height = canvas.height;
 var canvas_width = canvas.width;
 
-var ship = 
-{
-    width: 40,
-    height: 40,
-    x: (canvas_width - 40) / 2,
-    y: canvas_height - 40,
-    speed: 600,
-    dir: 0,
-    life: 3
-};
+var ship;
 
-var enemies = [];
+var enemies;
 
-var powerups = [];
+var powerups;
 
-var bullets = [];
+var bullets;
 
-var lastTime = performance.now();
+var lastTime;
 
-var pressedKey = '';
+var pressedKey;
 
-var gameState = 'INGAME' // END, PAUSED
+var gameState = 'NOTYETSTARTED' // INGAME, END, PAUSED
 
-var points = 0;
+var points;
 
 var images = {
     bg: new Image(),
@@ -43,7 +40,54 @@ images.explosion.src = '../media/explosion.png';
 //#endregion Variables
 
 //#region Function definitions
+function startNewGame() {
+    ship = 
+    {
+        width: 40,
+        height: 40,
+        x: (canvas_width - 40) / 2,
+        y: canvas_height - 40,
+        speed: 600,
+        dir: 0,
+        life: 3
+    };
+
+    enemies = [];
+
+    powerups = [];
+
+    bullets = [];
+
+    lastTime = performance.now();
+
+    pressedKey = '';
+
+    gameState = 'INGAME' // INGAME, END, PAUSED
+
+    points = 0;
+
+}
+
+function showText(txt) {
+    draw();
+    ctx.fillStyle = 'white';
+    ctx.font = '100px Courier New';
+    ctx.fillText(txt, canvas_width / 2 - 25, canvas_height / 2);
+}
+
+function startAnimation()
+{
+    showText('1');
+    setTimeout(showText, 1000, '2');
+    setTimeout(showText, 2000, '3');
+}
+
+function setTimeNow() {
+    lastTime = performance.now();
+}
+
 function gameLoop(now = performance.now()) {
+
     const dt = (now - lastTime) / 1000;
     lastTime = now;
     
@@ -196,7 +240,7 @@ function onKeyDown(event) {
         ship.dir = 1;
         pressedKey = 'ArrowRight';
     }
-    if (event.key === ' ') {
+    if (event.key === 'x') {
         bullets.push({
             x: ship.x + ship.width / 2 - 2,
             y: ship.y - 10,
@@ -215,13 +259,46 @@ function onKeyUp(event) {
         pressedKey = '';
     }
 }
+
+function onStartClicked() {
+    startbtn.innerHTML= "Új Játék";
+    if (gameState === 'NOTYETSTARTED') {
+        gameDiv.toggleAttribute('hidden');
+    }
+    startNewGame();
+    startAnimation();
+    setTimeout(setTimeNow, 3000);
+    setTimeout(gameLoop, 3000);
+}
+
+function onPauseClicked() {
+    if (gameState === 'INGAME') {
+        gameState = 'PAUSED';
+    } else if(gameState === 'PAUSED') {
+        gameState = 'INGAME';
+        startAnimation();
+        setTimeout(setTimeNow, 3000);
+        setTimeout(gameLoop, 3000);
+    }
+}
+
+function onSaveClicked() {
+    
+}
+
+function onLoadClicked() {
+    console.log("load");
+}
 //#endregion Function definitions
 
 //#region Event listener
 document.addEventListener('keydown', onKeyDown);
 document.addEventListener('keyup', onKeyUp);
+startbtn.addEventListener('click', onStartClicked);
+pausebtn.addEventListener('click', onPauseClicked);
+savebtn.addEventListener('click', onSaveClicked);
+loadbtn.addEventListener('click', onLoadClicked);
 //#endregion Event listener
 
 //#region Game loop
-gameLoop();
 //#endregion Game loop
