@@ -12,11 +12,14 @@ var ship =
     y: canvas_height - 40,
     speed: 600,
     dir: 0,
+    life: 3
 };
 
 var enemies = [];
 
 var powerups = [];
+
+var bullets = [];
 
 var lastTime = performance.now();
 
@@ -76,24 +79,68 @@ function update(dt) {
             height: 50,
             vx: generateRandom(-20, 20),
             vy: generateRandom(50, 120),
+            alive: 1
         })
     }
 
     enemies.forEach(enemie => {
         enemie.x += enemie.vx * dt;
         enemie.y += enemie.vy * dt;
+        if (enemie.y < 0 || enemie.y > canvas_height) {
+            enemie.alive = 0
+        }
+        if (Math.random() < 0.005) {
+            bullets.push({
+                x: enemie.x + enemie.width / 2 - 2,
+                y: enemie.y + 10,
+                width: 4,
+                height: 10,
+                speed: 500,
+                alive: 1,
+                color: 'red'
+            })
+        }
         if (isCollision(ship, enemie)) {
-            gameState = 'END'
+            ship.life = 0;
         }
     })
 
+    //lövedékek
+    bullets.forEach(bullet => {
+        bullet.y += bullet.speed * dt;
+        if (bullet.y < 0 || bullet.y > canvas_height) {
+            bullet.alive = 0
+        }
+        if (bullet.color === 'yellow') {
+            enemies.forEach(enemie => {
+                if (isCollision(enemie, bullet)) {
+                    enemie.alive = 0;
+                    bullet.alive = 0;
+                    points += 20;
+                }
+            })
+        }
+        else 
+        {
+            if(isCollision(ship, bullet))
+            {
+                bullet.alive = 0;
+                --ship.life;
+            }
+        }
+    })
+
+    //delete bullets
+    bullets = bullets.filter(bullet => bullet.alive === 1);
     //delete enemie
     var oldLength =  enemies.length;
-    enemies = enemies.filter(enemie => enemie.y <= canvas_height);
-    enemies = enemies.filter(enemie => enemie.x <= canvas_width);
+    enemies = enemies.filter(enemie => enemie.alive === 1);
     points += oldLength - enemies.length;
-    console.log(points);
-    //powerup
+
+
+    if (ship.life === 0) {
+        gameState = 'END'
+    }
 }
 
 function draw() {
@@ -120,13 +167,17 @@ function draw() {
         ctx.drawImage(images.enemie, enemie.x, enemie.y, enemie.width, enemie.height);
     });
 
-    //powerup-ok
-    ctx.fillStyle = 'rgb(0, 0, 200)';
+    //lövedékek
+    bullets.forEach(bullet => {
+        ctx.fillStyle = bullet.color;
+        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+    })
 
-    //points
+    //data
     ctx.fillStyle = 'white';
     ctx.font = '10px Courier New';
     ctx.fillText(`Points: ${points}`, 10, 10);
+    ctx.fillText(`Life: ${ship.life}`, 10, 30);
 
     //Vege
     if (gameState === 'END') {
@@ -144,6 +195,17 @@ function onKeyDown(event) {
     if (event.key === 'ArrowRight') {
         ship.dir = 1;
         pressedKey = 'ArrowRight';
+    }
+    if (event.key === ' ') {
+        bullets.push({
+            x: ship.x + ship.width / 2 - 2,
+            y: ship.y - 10,
+            width: 4,
+            height: 10,
+            speed: -500,
+            alive: 1,
+            color: 'yellow'
+        })
     }
 }
 
