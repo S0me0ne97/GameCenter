@@ -46,8 +46,10 @@ $savesJSON = json_encode($saves);
         <button id="startbtn">Start</button>
         |
         <button id="pause">Pause</button>
-        <button id="save">Mentés</button>
-        <button id="load">Betöltés</button><br>
+        <?php if($auth->is_authenticated()) : ?>
+            <button id="save">Mentés</button>
+            <button id="load">Betöltés</button><br>
+        <?php endif; ?>
     </div>
     <br>
     <div id="game" hidden>
@@ -55,7 +57,7 @@ $savesJSON = json_encode($saves);
     </div>
 
     
-    <div id="savesdiv"></div>
+    <div id="savesdiv" hidden></div>
     
     <div id="passdata" hidden><?= $savesJSON ?></div>
     <script src="js/space_shooter.js" type="module"></script>

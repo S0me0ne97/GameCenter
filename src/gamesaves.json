@@ -1,20 +1,20 @@
 {
-    "6284260d3ffac": {
+    "6284b943d0d89": {
         "userid": "62681e8f1ff6d",
         "game": "space_shooter",
-        "gamedata": "{\"ship\":{\"width\":40,\"height\":40,\"x\":310.0599999999991,\"y\":660,\"speed\":600,\"dir\":0,\"life\":6,\"blue\":0,\"green\":0},\"enemies\":[{\"x\":389.2426999999966,\"y\":210.67687999999922,\"width\":50,\"height\":50,\"vx\":15,\"vy\":116,\"alive\":1}],\"powerups\":[{\"x\":245.99978000000016,\"y\":371.90298000000234,\"width\":25,\"height\":25,\"speed\":69,\"alive\":1,\"type\":0}],\"bullets\":[{\"x\":394.1226999999988,\"y\":688.7188800000001,\"width\":4,\"height\":10,\"speed\":500,\"alive\":1,\"color\":\"red\"}],\"pressedKey\":\"\",\"gameState\":\"PAUSED\",\"points\":80,\"gameTime\":16}",
-        "id": "6284260d3ffac"
+        "gamedata": "{\"enemyProb\":0.006,\"bulletProb\":0.006,\"ship\":{\"width\":40,\"height\":40,\"x\":64.99199999999983,\"y\":660,\"speed\":600,\"dir\":0,\"life\":5,\"blue\":0,\"green\":0},\"enemies\":[{\"x\":276.2074400000037,\"y\":251.93490000000097,\"width\":50,\"height\":50,\"vx\":-12,\"vy\":105,\"alive\":1},{\"x\":406.5464400000015,\"y\":219.00078000000067,\"width\":50,\"height\":50,\"vx\":6,\"vy\":97,\"alive\":1},{\"x\":496.2171400000006,\"y\":103.40587999999974,\"width\":50,\"height\":50,\"vx\":-1,\"vy\":58,\"alive\":1},{\"x\":74.26624000000002,\"y\":18.696480000000037,\"width\":50,\"height\":50,\"vx\":8,\"vy\":66,\"alive\":1}],\"powerups\":[],\"bullets\":[{\"x\":310.5044800000022,\"y\":637.9658000000002,\"width\":4,\"height\":10,\"speed\":500,\"alive\":1,\"color\":\"red\"},{\"x\":303.8063200000032,\"y\":417.48470000000134,\"width\":4,\"height\":10,\"speed\":500,\"alive\":1,\"color\":\"red\"},{\"x\":427.4469200000013,\"y\":374.18854000000067,\"width\":4,\"height\":10,\"speed\":500,\"alive\":1,\"color\":\"red\"},{\"x\":427.9967600000013,\"y\":337.2576200000009,\"width\":4,\"height\":10,\"speed\":500,\"alive\":1,\"color\":\"red\"}],\"pressedKey\":\"\",\"gameState\":\"PAUSED\",\"points\":60,\"gameTime\":6}",
+        "id": "6284b943d0d89"
     },
-    "62842684ac9c8": {
+    "6284bbf006db6": {
         "userid": "62681e8f1ff6d",
         "game": "space_shooter",
-        "gamedata": "{\"ship\":{\"width\":40,\"height\":40,\"x\":230,\"y\":660,\"speed\":600,\"dir\":0,\"life\":5,\"blue\":0,\"green\":0},\"enemies\":[{\"x\":46.58739999999972,\"y\":95.19307999999982,\"width\":50,\"height\":50,\"vx\":-10,\"vy\":58,\"alive\":1},{\"x\":209.5173199999996,\"y\":81.9284400000001,\"width\":50,\"height\":50,\"vx\":-2,\"vy\":66,\"alive\":1}],\"powerups\":[],\"bullets\":[{\"x\":233.7669999999998,\"y\":367.26900000000035,\"width\":4,\"height\":10,\"speed\":500,\"alive\":1,\"color\":\"red\"}],\"pressedKey\":\"\",\"gameState\":\"PAUSED\",\"points\":0,\"gameTime\":4}",
-        "id": "62842684ac9c8"
+        "gamedata": "{\"killPoint\":10,\"enemyProb\":0.005,\"bulletProb\":0.005,\"ship\":{\"width\":40,\"height\":40,\"x\":234.98000000000116,\"y\":660,\"speed\":600,\"dir\":0,\"life\":5,\"blue\":0,\"green\":0},\"enemies\":[{\"x\":241.03424000000166,\"y\":152.12687999999997,\"width\":50,\"height\":50,\"vx\":-4,\"vy\":102,\"alive\":1}],\"powerups\":[{\"x\":163.5283200000003,\"y\":314.29924,\"width\":25,\"height\":25,\"speed\":94,\"alive\":1,\"type\":2}],\"bullets\":[{\"x\":266.9337600000009,\"y\":454.7991200000005,\"width\":4,\"height\":10,\"speed\":500,\"alive\":1,\"color\":\"red\"}],\"pressedKey\":\"\",\"gameState\":\"PAUSED\",\"points\":50,\"gameTime\":9}",
+        "id": "6284bbf006db6"
     },
-    "628426d54e3a6": {
+    "6284bc4b57cad": {
         "userid": "62681e8f1ff6d",
         "game": "space_shooter",
-        "gamedata": "{\"ship\":{\"width\":40,\"height\":40,\"x\":299.8759999999997,\"y\":660,\"speed\":600,\"dir\":0,\"life\":5,\"blue\":0,\"green\":0},\"enemies\":[{\"x\":343.99846000000053,\"y\":55.987679999999976,\"width\":50,\"height\":50,\"vx\":7,\"vy\":56,\"alive\":1}],\"powerups\":[],\"bullets\":[{\"x\":317.8759999999997,\"y\":70.96000000000004,\"width\":4,\"height\":10,\"speed\":-500,\"alive\":1,\"color\":\"yellow\"},{\"x\":317.8759999999997,\"y\":166.77000000000044,\"width\":4,\"height\":10,\"speed\":-500,\"alive\":1,\"color\":\"yellow\"},{\"x\":317.8759999999997,\"y\":254.25,\"width\":4,\"height\":10,\"speed\":-500,\"alive\":1,\"color\":\"yellow\"},{\"x\":317.8759999999997,\"y\":345.8900000000003,\"width\":4,\"height\":10,\"speed\":-500,\"alive\":1,\"color\":\"yellow\"},{\"x\":317.8759999999997,\"y\":441.6999999999998,\"width\":4,\"height\":10,\"speed\":-500,\"alive\":1,\"color\":\"yellow\"},{\"x\":317.8759999999997,\"y\":533.3600000000006,\"width\":4,\"height\":10,\"speed\":-500,\"alive\":1,\"color\":\"yellow\"}],\"pressedKey\":\"\",\"gameState\":\"PAUSED\",\"points\":20,\"gameTime\":6}",
-        "id": "628426d54e3a6"
+        "gamedata": "{\"killPoint\":10,\"enemyProb\":0.005,\"bulletProb\":0.005,\"ship\":{\"width\":40,\"height\":40,\"x\":404.99199999999064,\"y\":660,\"speed\":600,\"dir\":0,\"life\":1,\"blue\":0,\"green\":0},\"enemies\":[{\"x\":312.81512000000083,\"y\":308.201359999999,\"width\":50,\"height\":50,\"vx\":2,\"vy\":106,\"alive\":1},{\"x\":475.8661599999996,\"y\":49.45323999999931,\"width\":50,\"height\":50,\"vx\":4,\"vy\":106,\"alive\":1}],\"powerups\":[],\"bullets\":[],\"pressedKey\":\"\",\"gameState\":\"PAUSED\",\"points\":180,\"gameTime\":124}",
+        "id": "6284bc4b57cad"
     }
 }

@@ -142,6 +142,40 @@ function startNewGame(diff) {
 
 }
 
+function loadNewGame(id) {
+    let data = gamesArr[id];
+    ship = 
+    {
+        width: 40,
+        height: 40,
+        x: data.ship.x,
+        y: data.ship.y,
+        speed: data.ship.speed,
+        dir: data.ship.dir,
+        life: data.ship.life,
+        blue: data.ship.blue,
+        green: data.ship.green
+    };
+    enemyProb = data.enemyProb;
+    bulletProb = data.bulletProb;
+    killPoint = data.killPoint;
+    enemies = data.enemies;
+    powerups = data.powerups;
+    bullets = data.bullets;
+    pressedKey = data.pressedKey;
+    gameState = 'INGAME';
+    points = data.points;
+    gameTime = data.gameTime;
+
+    savesDiv.toggleAttribute("hidden");
+    gameDiv.toggleAttribute("hidden");
+
+    startAnimation();
+    setTimeout(setTimeNow, 3000);
+    setTimeout(timePass, 3000);
+    setTimeout(gameLoop, 3000);
+}
+
 function loadJSON() {
     json_data = JSON.parse(passData.innerHTML);
     gamesObj = [];
@@ -171,6 +205,7 @@ function loadJSON() {
     for (let index = 0; index < gamesArr.length; index++) {
         canvasArr.push(document.getElementById(index));
     }
+
     i = 0
     canvasArr.forEach(element => {
         drawMiniCanvas(element, gamesArr[i]);
@@ -236,8 +271,6 @@ function drawMiniCanvas(minicanvas, data) {
     minictx.fillText(`Life: ${data.ship.life}`, 10, 30);
     minictx.fillText(`Kék: ${data.ship.blue}s`, 10, 50);
     minictx.fillText(`Zöld: ${data.ship.green}s`, 10, 70);
-
-    console.log(data);
 }
 
 function showText(txt) {
@@ -518,6 +551,7 @@ function onStartClicked() {
     if (hardbtn.checked) {
         startNewGame(2);
     }
+    gameState = 'INGAME';
 
     startAnimation();
     setTimeout(setTimeNow, 3000);
@@ -541,8 +575,12 @@ function onPauseClicked() {
 
 function onSaveClicked() {
     if (gameState === 'LOADPAGE') return;
+    if (ship.life === 0) return;
     gameState = 'PAUSED';
     var gameObj = {
+        killPoint,
+        enemyProb,
+        bulletProb,
         ship,
         enemies,
         powerups,
@@ -558,23 +596,33 @@ function onSaveClicked() {
 }  
 
 function onLoadClicked() {
-    gameDiv.toggleAttribute("hidden");
+    savesDiv.toggleAttribute("hidden");
     if (gameState === 'INGAME') {
         loadbtn.innerHTML = "Vissza a játékhoz";
         gameState = 'LOADPAGE';
+        gameDiv.toggleAttribute("hidden");
     } else if(gameState === 'LOADPAGE') {
+        gameDiv.toggleAttribute("hidden");
         loadbtn.innerHTML = "Betöltés";
         gameState = 'INGAME';
         startAnimation();
         setTimeout(setTimeNow, 3000);
         setTimeout(gameLoop, 3000);
+    } else if (gameState === 'NOTYETSTARTED') {
+        gameState = 'LOADPAGE';
     }
+}
+
+function onPageClicked(event) {
+    if (gameState !== 'LOADPAGE') return;
+    loadNewGame(parseInt(event.explicitOriginalTarget.id));
 }
 //#endregion Function definitions
 
 //#region Event listener
 document.addEventListener('keydown', onKeyDown);
 document.addEventListener('keyup', onKeyUp);
+document.addEventListener('click', onPageClicked);
 startbtn.addEventListener('click', onStartClicked);
 pausebtn.addEventListener('click', onPauseClicked);
 savebtn.addEventListener('click', onSaveClicked);
