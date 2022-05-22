@@ -41,7 +41,7 @@
                 "score": "100"
             }
         },
-        "page": "Game1.php"
+        "page": "game2.php"
     },
     "3": {
         "name": "Game2",
@@ -59,7 +59,7 @@
                 "score": "90"
             }
         },
-        "page": "Game2.php"
+        "page": "game3.php"
     },
     "4": {
         "name": "Game3",
@@ -68,6 +68,6 @@
         "text": "valami",
         "id": "4",
         "highscores": [],
-        "page": "Game3.php"
+        "page": "game4.php"
     }
 }
