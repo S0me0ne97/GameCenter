@@ -19,7 +19,7 @@ $savesJSON = json_encode($saves);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Game4 | GC</title>
+    <title>Candy Crush | GC</title>
 </head>
 <body>
     <nav class="navbar">
@@ -52,14 +52,16 @@ $savesJSON = json_encode($saves);
         <?php endif; ?>
     </div>
     <br>
-    <div id="game">
-        <canvas id="canvas" width="500" height="700"></canvas>
+    <div id="game" >
+        <label id="minutes">00</label>:<label id="seconds">00</label>
+        <label id="points">pontok: 0</label>
+        <table id="gametable"></table>
     </div>
 
     
     <div id="savesdiv" hidden></div>
     
     <div id="passdata" hidden><?= $savesJSON ?></div>
-    <script src="js/game4.js" type="module"></script>
+    <script src="js/candycrush.js" type="module"></script>
 </body>
 </html>

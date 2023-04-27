@@ -96,43 +96,45 @@
             <?php endif ?>
         </ul> 
     </nav>
-    <form action="" method="post">
-        <input type="submit" name="rating"
-                class="button" value="Értékelés alapján" />
-        <input type="submit" name="revrating"
-                class="button" value="Értékelés alapján fordítva" />
-        <?php if($auth->is_authenticated()) : ?>
-            <input type="submit" name="liked"
-                    class="button" value="Kedvelt" />
-        <?php endif ?>
-        <input type="submit" name="action"
-                class="button" value="Akció" />
-        <input type="submit" name="shooter"
-                class="button" value="Lövödözős" />
-        <input type="submit" name="logic"
-                class="button" value="Logikai" />
-    </form>
-    <div>
-        <?php foreach ($games as $key => $value) : ?>
-            <p>
-                <hr>
-                Név: <?= $value['name'] ?><br>
-                Típus: <?= $value['type'] ?><br>
-                Rating: <?= $value['rating'] ?><br>
-                Leírás: <?= $value['text'] ?><br>
-                Legjobb eredmények:
-                <ul>
-                    <?php foreach (getHighScoresInOrder($key) as $id => $data) : ?>
-                        <li> <?=$data["name"]?>:<?=$data["score"]?> </li>
-                    <?php endforeach; ?>
-                </ul>
-                <br>
-                <?php if($auth->is_authenticated()) : ?>
-                    <a href="like.php?liked=<?= $value["id"] ?>">Kedvel</a>
-                <?php endif ?>
-                <a href="<?= $value['page'] ?>">Játék</a>
-            </p>
-        <?php endforeach; ?>  
+    <div id="diszes_div">
+        <form action="" method="post">
+            <input type="submit" name="rating"
+                    class="button" value="Értékelés alapján" />
+            <input type="submit" name="revrating"
+                    class="button" value="Értékelés alapján fordítva" />
+            <?php if($auth->is_authenticated()) : ?>
+                <input type="submit" name="liked"
+                        class="button" value="Kedvelt" />
+            <?php endif ?>
+            <input type="submit" name="action"
+                    class="button" value="Akció" />
+            <input type="submit" name="shooter"
+                    class="button" value="Lövödözős" />
+            <input type="submit" name="logic"
+                    class="button" value="Logikai" />
+        </form>
+        <div>
+            <?php foreach ($games as $key => $value) : ?>
+                <p>
+                    <hr>
+                    Név: <?= $value['name'] ?><br>
+                    Típus: <?= $value['type'] ?><br>
+                    Rating: <?= $value['rating'] ?><br>
+                    Leírás: <?= $value['text'] ?><br>
+                    Legjobb eredmények:
+                    <ul>
+                        <?php foreach (getHighScoresInOrder($key) as $id => $data) : ?>
+                            <li> <?=$data["name"]?>:<?=$data["score"]?> </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <br>
+                    <?php if($auth->is_authenticated()) : ?>
+                        <a href="like.php?liked=<?= $value["id"] ?>">Kedvel</a>
+                    <?php endif ?>
+                    <a href="<?= $value['page'] ?>">Játék</a>
+                </p>
+            <?php endforeach; ?>  
+        </div>
     </div>
 
     <footer>

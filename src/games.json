@@ -44,7 +44,7 @@
         "page": "game2.php"
     },
     "3": {
-        "name": "Game2",
+        "name": "Candy Crush",
         "type": "logic",
         "rating": 4,
         "text": "valami",
@@ -59,15 +59,15 @@
                 "score": "90"
             }
         },
-        "page": "game3.php"
+        "page": "candycrush.php"
     },
     "4": {
-        "name": "Game3",
+        "name": "K\u00e1rty\u00e1s mem\u00f3riaj\u00e1t\u00e9k",
         "type": "logic",
         "rating": 3,
         "text": "valami",
         "id": "4",
         "highscores": [],
-        "page": "game4.php"
+        "page": "memorycardgame.php"
     }
 }

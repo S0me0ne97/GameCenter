@@ -23,5 +23,16 @@
         ],
         "liked": [],
         "id": "62682687e2641"
+    },
+    "642ae6365818c": {
+        "username": "valaki",
+        "email": "valami@gmail.com",
+        "playedtime": 0,
+        "password": "$2y$10$c3gQ27kfW5Hiq2xqhaq8w.nIG.DGqAjUj.jbho7aa2SHXZU8\/JHju",
+        "roles": [
+            "user"
+        ],
+        "liked": [],
+        "id": "642ae6365818c"
     }
 }
