@@ -34,5 +34,29 @@
         ],
         "liked": [],
         "id": "642ae6365818c"
+    },
+    "644b848b3e504": {
+        "username": "balint",
+        "email": "vbalint1997@gmail.com",
+        "playedtime": 0,
+        "password": "$2y$10$MKry58iCPKP\/PidywswjyOXBFNPj\/ty6DZPZ4Mq4MMScASOD7ImMK",
+        "roles": [
+            "user"
+        ],
+        "liked": [],
+        "id": "644b848b3e504"
+    },
+    "644bab2fdd65f": {
+        "username": "pp",
+        "email": "pp@gmail.com",
+        "playedtime": 0,
+        "password": "$2y$10$Pbrnc1\/acE0BGOt0fgzJIuIrFSPWbfK5H7Nf.yxH2NB37QBjWZm5u",
+        "roles": [
+            "user"
+        ],
+        "liked": [
+            "1"
+        ],
+        "id": "644bab2fdd65f"
     }
 }
