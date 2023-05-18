@@ -86,7 +86,7 @@
         <ul>
             <li><img src="media/logo.png" alt="Logo"></li>
             <li><a href="../index.php">Kezdőlap</a></li>
-            <li><a href="categories.php">Kategóriák</a></li>
+            <li><a href="categories.php">Játékok</a></li>
             <li><a href="contact.php">Kapcsolat</a></li>
             <?php if(!$auth->is_authenticated()) : ?>
                 <li><a id="right" href="login.php">Bejelentkezés</a></li>

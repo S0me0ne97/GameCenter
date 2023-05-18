@@ -1,8 +1,8 @@
 //#region Variables
 var startbtn = document.getElementById("startbtn");
 var pausebtn = document.getElementById("pause");
-var savebtn = document.getElementById("save");
 var loadbtn = document.getElementById("load");
+var savebtn = document.getElementById("save");
 
 var easybtn = document.getElementById("easy");
 var mediumbtn = document.getElementById("medium");
@@ -615,6 +615,9 @@ function onLoadClicked() {
 
 function onPageClicked(event) {
     if (gameState !== 'LOADPAGE') return;
+    if (event.explicitOriginalTarget.nodeName != "CANVAS") {
+        return;
+    }
     loadNewGame(parseInt(event.explicitOriginalTarget.id));
 }
 //#endregion Function definitions

@@ -24,10 +24,11 @@ let gamematrix = [];
 let newInnerHTML = "";
 let points = 0;
 let totalSeconds = 101;
-let gamestate = "";
+let gamestate = "NOTYETSTARTED";
 let firstChosen = [];
 let secondChosen = [];
 let revealedarr = [];
+let gamesArr = [];
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -37,14 +38,46 @@ function generateTable(size) {
         newInnerHTML += "<tr>";
         for (let j = 0; j < size / 2; j++) {
             newInnerHTML += "<th>";
-            newInnerHTML += "<img src='../../media/memorycardgame/basic.png' alt='green'/>";
+            if (revealedarr.includes(gamematrix[j])) {
+                if (gamematrix[j] === 0) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/arrowleft.png' alt='arrowleft'/>"
+                } else if (gamematrix[j] === 1) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/arrowright.png' alt='arrowright'/>"
+                } else if (gamematrix[j] === 2) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/circle.png' alt='circle'/>"
+                } else if (gamematrix[j] === 3) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/heart.png' alt='heart'/>"
+                } else if (gamematrix[j] === 4) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/lightning.png' alt='lightning'/>"
+                } else if (gamematrix[j] === 5) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/stair.png' alt='stair'/>"
+                }
+            } else {
+                newInnerHTML += "<img src='../../media/memorycardgame/basic.png' alt='hidden'/>";
+            }
             newInnerHTML += "</th>";
         }
         newInnerHTML += "</tr>";
         newInnerHTML += "<tr>";
         for (let j = size / 2; j < size; j++) {
             newInnerHTML += "<th>";
-            newInnerHTML += "<img src='../../media/memorycardgame/basic.png' alt='green'/>";
+            if (revealedarr.includes(gamematrix[j])) {
+                if (gamematrix[j] === 0) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/arrowleft.png' alt='arrowleft'/>"
+                } else if (gamematrix[j] === 1) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/arrowright.png' alt='arrowright'/>"
+                } else if (gamematrix[j] === 2) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/circle.png' alt='circle'/>"
+                } else if (gamematrix[j] === 3) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/heart.png' alt='heart'/>"
+                } else if (gamematrix[j] === 4) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/lightning.png' alt='lightning'/>"
+                } else if (gamematrix[j] === 5) {
+                    newInnerHTML += "<img src='../../media/memorycardgame/stair.png' alt='stair'/>"
+                }
+            } else {
+                newInnerHTML += "<img src='../../media/memorycardgame/basic.png' alt='hidden'/>";
+            }
             newInnerHTML += "</th>";
         }
         newInnerHTML += "</tr>";
@@ -64,6 +97,7 @@ function addEventListener() {
 
 /// game matrix filler function
 function generateRandomMatrix(tablesize) {
+    gamematrix = [];
     let temparr = [];
     /// fill with elements
     for( let i = 0; i < tablesize / 2; i++) {
@@ -124,20 +158,24 @@ async function checkPair() {
         secondChosen = [];
         if (revealedarr.length == tablesize / 2) {
             gamestate = "END"
+            points += totalSeconds * 5;
         }
     }
     else {
+        gamestate = "TURNINGBACK"
         await delay(1000);
         closeChosen();
         firstChosen = [];
         secondChosen = [];
+        gamestate = "INGAME"
     }
+    pointsLabel.innerHTML = "pontok: " + points;
 }
 
 function getClickedCell(event) {
-    if (gamestate === "END") {
-      return;
-    }
+    if (gamestate != "INGAME") {
+        return;
+      }
     let cell = event.target;
     let row = cell.parentNode.parentNode.rowIndex;
     let col = cell.parentNode.cellIndex;
@@ -165,6 +203,10 @@ function getClickedCell(event) {
 }
 
 function setTime() {
+    if (gamestate === "PAUSED") {
+      setTimeout(setTime, 1000);
+      return;
+    }
     if (gamestate === "END") {
         return;
     }
@@ -175,6 +217,8 @@ function setTime() {
     --totalSeconds;
     secondsLabel.innerHTML = pad(totalSeconds % 60);
     minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+
+    setTimeout(setTime, 1000);
 }
 
 function pad(val) {
@@ -186,10 +230,239 @@ function pad(val) {
     }
 }
 
-setInterval(setTime, 1000);
 
-generateRandomMatrix(tablesize);
-generateTable(tablesize);
-addEventListener();
+function onStartClicked() {
+  startbtn.innerHTML = "Új Játék";
+  points = 0;
+  pointsLabel.innerHTML = "pontok: " + points;
+  revealedarr = [];
+  if (gamestate === "INGAME" || gamestate === "PAUSED") {
+    if (easybtn.checked) {
+      tablesize = 8;
+    }
+    if (mediumbtn.checked) {
+      tablesize = 10;
+    }
+    if (hardbtn.checked) {
+      tablesize = 12;
+    }
+    gamestate = "INGAME";
+    pausebtn.innerHTML = "Szünet";
+    generateRandomMatrix(tablesize);
+    generateTable(tablesize);
+    addEventListener();
+    totalSeconds = 101;
+  }
+  if (gamestate === "END") {
+    if (easybtn.checked) {
+      tablesize = 8;
+    }
+    if (mediumbtn.checked) {
+      tablesize = 10;
+    }
+    if (hardbtn.checked) {
+      tablesize = 12;
+    }
+    gamestate = "INGAME"
+    generateRandomMatrix(tablesize);
+    generateTable(tablesize);
+    addEventListener();
+    totalSeconds = 101;
+    setTimeout(setTime, 1000); 
+  }
+  if (gamestate === 'NOTYETSTARTED') {
+    if (easybtn.checked) {
+      tablesize = 8;
+    }
+    if (mediumbtn.checked) {
+      tablesize = 10;
+    }
+    if (hardbtn.checked) {
+      tablesize = 12;
+    }
+    totalSeconds = 101;
+    gameDiv.toggleAttribute('hidden');
+    gamestate = "INGAME";
 
+    generateRandomMatrix(tablesize);
+    generateTable(tablesize);
+    addEventListener();
+    setTimeout(setTime, 1000);
+  }
+}
+
+function onPauseClicked() {
+    if (gamestate != "INGAME" && gamestate != "PAUSED") {
+        return;
+    }
+    pausebtn.innerHTML = gamestate === "INGAME" ? "Folytatás" : "Szünet"; 
+    gamestate = gamestate === "INGAME" ? "PAUSED" : "INGAME";
+}
+
+function onSaveClicked() {
+    if (gamestate != "INGAME" && gamestate != "PAUSED") {
+        return;
+    }
+    gamestate = 'PAUSED';
+    var gameObj = {
+        gamematrix,
+        totalSeconds,
+        points,
+        tablesize,
+        revealedarr
+    }
+    var jsonObj = JSON.stringify(gameObj);
+  
+    location.replace('save_memorygame.php?data='+jsonObj);
+}
+
+function onLoadClicked() {
+    savesDiv.toggleAttribute("hidden");
+    if(gamestate === 'LOADPAGE') {
+        gameDiv.toggleAttribute("hidden");
+        loadbtn.innerHTML = "Betöltés";
+        gamestate = 'INGAME';
+    } else if (gamestate === 'INGAME') {
+      loadbtn.innerHTML = "Vissza a játékhoz";
+      gamestate = 'LOADPAGE';
+      gameDiv.toggleAttribute("hidden");
+    }
+    if (gamestate === "LOADPAGENOGAMESTARTED") {
+        loadbtn.innerHTML = "Betöltés"
+        gamestate = "NOTYETSTARTED";
+    } else if (gamestate === "NOTYETSTARTED") {
+        loadbtn.innerHTML = "Vissza a játékhoz";
+        gamestate = 'LOADPAGENOGAMESTARTED';
+    }
+    if (gamestate === "LOADPAGEEND") {
+        loadbtn.innerHTML = "Betöltés"
+        gamestate = "END";
+        gameDiv.toggleAttribute("hidden");
+    } else if (gamestate === "END") {
+      loadbtn.innerHTML = "Vissza a játékhoz";
+      gamestate = 'LOADPAGEEND';
+      gameDiv.toggleAttribute("hidden");
+    }
+
+}
+
+function loadJSON() {
+    let json_data = JSON.parse(passData.innerHTML);
+    let gamesObj = [];
+    for(let i in json_data){
+        gamesObj.push([i, json_data [i]]);
+    }
+    gamesArr = [];
+    for (const element of gamesObj) {
+        if (element[1]["game"] === "memorygame") {
+            gamesArr.push(JSON.parse(element[1]["gamedata"]));
+        }
+    }
+    let divstr = "<br><ul>";
+    let i = 0;
+    gamesArr.forEach(elem => {
+        divstr += "<li>";
+        divstr += "Pontok: ";
+        divstr += elem.points;
+        divstr += " Hátralévő idő: ";
+        divstr += elem.totalSeconds;
+        divstr += "mp"
+        divstr += "<br>"
+        divstr += "<table id=\"" + i + "\">"
+        divstr += "<tr>";
+        for (let j = 0; j < elem.tablesize / 2; j++) {
+            divstr += "<th>";
+            if (elem.revealedarr.includes(elem.gamematrix[j])) {
+                if (elem.gamematrix[j] === 0) {
+                    divstr += "<img src='../../media/memorycardgame/arrowleft.png' alt='arrowleft'/>"
+                } else if (elem.gamematrix[j] === 1) {
+                    divstr += "<img src='../../media/memorycardgame/arrowright.png' alt='arrowright'/>"
+                } else if (elem.gamematrix[j] === 2) {
+                    divstr += "<img src='../../media/memorycardgame/circle.png' alt='circle'/>"
+                } else if (elem.gamematrix[j] === 3) {
+                    divstr += "<img src='../../media/memorycardgame/heart.png' alt='heart'/>"
+                } else if (elem.gamematrix[j] === 4) {
+                    divstr += "<img src='../../media/memorycardgame/lightning.png' alt='lightning'/>"
+                } else if (elem.gamematrix[j] === 5) {
+                    divstr += "<img src='../../media/memorycardgame/stair.png' alt='stair'/>"
+                }
+            } else {
+                divstr += "<img src='../../media/memorycardgame/basic.png' alt='hidden'/>";
+            }
+            divstr += "</th>";
+        }
+        divstr += "</tr>";
+        divstr += "<tr>";
+        for (let j = elem.tablesize / 2; j < elem.tablesize; j++) {
+            divstr += "<th>";
+            if (elem.revealedarr.includes(elem.gamematrix[j])) {
+                if (elem.gamematrix[j] === 0) {
+                    divstr += "<img src='../../media/memorycardgame/arrowleft.png' alt='arrowleft'/>"
+                } else if (elem.gamematrix[j] === 1) {
+                    divstr += "<img src='../../media/memorycardgame/arrowright.png' alt='arrowright'/>"
+                } else if (elem.gamematrix[j] === 2) {
+                    divstr += "<img src='../../media/memorycardgame/circle.png' alt='circle'/>"
+                } else if (elem.gamematrix[j] === 3) {
+                    divstr += "<img src='../../media/memorycardgame/heart.png' alt='heart'/>"
+                } else if (elem.gamematrix[j] === 4) {
+                    divstr += "<img src='../../media/memorycardgame/lightning.png' alt='lightning'/>"
+                } else if (elem.gamematrix[j] === 5) {
+                    divstr += "<img src='../../media/memorycardgame/stair.png' alt='stair'/>"
+                }
+            } else {
+                divstr += "<img src='../../media/memorycardgame/basic.png' alt='hidden'/>";
+            }
+            divstr += "</th>";
+        }
+        divstr += "</tr>";
+        divstr += "</table>"
+        divstr += "</li><br><br>";
+        ++i;
+    })
+    divstr += "</ul>"
+    savesDiv.innerHTML = divstr;
+  }
+
+function onPageClicked(event) {
+    if (gamestate != 'LOADPAGE' && gamestate != "LOADPAGENOGAMESTARTED" && gamestate != "LOADPAGEEND") return;
+    if (event.explicitOriginalTarget.nodeName != "IMG") {
+        return;
+    }
+    loadNewGame(parseInt(event.target.parentNode.parentNode.parentNode.parentNode.id));
+}
+
+function loadNewGame(id) {
+    let data = gamesArr[id];
+    totalSeconds = data.totalSeconds;
+    points = data.points;
+    gamematrix = data.gamematrix.slice();
+    tablesize = data.tablesize;
+    revealedarr = data.revealedarr.slice();
+    
+    pointsLabel.innerHTML = "pontok: " + points;
+  
+    savesDiv.toggleAttribute("hidden");
+    gameDiv.toggleAttribute("hidden");
+    if (gamestate === "LOADPAGENOGAMESTARTED" || gamestate === "LOADPAGEEND") {
+      loadbtn.innerHTML = "Betöltés";
+      gamestate = "INGAME";
+      generateTable(tablesize);
+      addEventListener();
+      setTime();
+    }
+    else {
+      generateTable(tablesize);
+      addEventListener();
+      loadbtn.innerHTML = "Betöltés"
+      gamestate = "INGAME";
+    }
+  }
+
+document.addEventListener('click', onPageClicked);
+startbtn.addEventListener('click', onStartClicked);
+pausebtn.addEventListener('click', onPauseClicked);
+savebtn.addEventListener('click', onSaveClicked);
+loadbtn.addEventListener('click', onLoadClicked);
+
+loadJSON()
 

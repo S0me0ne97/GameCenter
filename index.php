@@ -20,7 +20,7 @@
         <ul>
             <li><img src="media/logo.png" alt="Logo"></li>
             <li><a href="index.php">Kezdőlap</a></li>
-            <li><a href="src/categories.php">Kategóriák</a></li>
+            <li><a href="src/categories.php">Játékok</a></li>
             <li><a href="src/contact.php">Kapcsolat</a></li>
             <?php if(!$auth->is_authenticated()) : ?>
                 <li><a id="right" href="src/login.php">Bejelentkezés</a></li>

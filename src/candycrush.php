@@ -38,21 +38,21 @@ $savesJSON = json_encode($saves);
     </nav>
     <div id="menu">
         <input type="radio" id="easy" name="difficulty" value="easy" checked>
-        <label for="easy">Könnyű</label>
+        <label for="easy">5x5</label>
         <input type="radio" id="medium" name="difficulty" value="medium">
-        <label for="medium">Közepes</label>
+        <label for="medium">6x6</label>
         <input type="radio" id="hard" name="difficulty" value="hard">
-        <label for="hard">Nehéz</label>
+        <label for="hard">7x7</label>
         <button id="startbtn">Start</button>
         |
-        <button id="pause">Pause</button>
+        <button id="pause">Szünet</button>
         <?php if($auth->is_authenticated()) : ?>
             <button id="save">Mentés</button>
             <button id="load">Betöltés</button><br>
         <?php endif; ?>
     </div>
     <br>
-    <div id="game" >
+    <div id="game" hidden>
         <label id="minutes">00</label>:<label id="seconds">00</label>
         <label id="points">pontok: 0</label>
         <table id="gametable"></table>

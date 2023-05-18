@@ -45,14 +45,14 @@ $savesJSON = json_encode($saves);
         <label for="hard">Nehéz</label>
         <button id="startbtn">Start</button>
         |
-        <button id="pause">Pause</button>
+        <button id="pause">Szünet</button>
         <?php if($auth->is_authenticated()) : ?>
             <button id="save">Mentés</button>
             <button id="load">Betöltés</button><br>
         <?php endif; ?>
     </div>
     <br>
-    <div id="game">
+    <div id="game" hidden>
         <label id="minutes">00</label>:<label id="seconds">00</label>
         <label id="points">pontok: 0</label>
         <table id="gametable" class="memorygame"></table>
