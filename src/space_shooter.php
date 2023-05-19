@@ -45,7 +45,7 @@ $savesJSON = json_encode($saves);
         <label for="hard">Nehéz</label>
         <button id="startbtn">Start</button>
         |
-        <button id="pause">Pause</button>
+        <button id="pause">Szünet</button>
         <?php if($auth->is_authenticated()) : ?>
             <button id="save">Mentés</button>
             <button id="load">Betöltés</button><br>

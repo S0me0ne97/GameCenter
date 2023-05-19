@@ -65,7 +65,6 @@ images.ship.src = '../media/ship.png';
 images.enemy.src = '../media/enemie_r.png';
 images.explosion.src = '../media/explosion.png';
 images.powerup.src = '../media/powerups.png';
-
 //#endregion Variables
 
 //#region Function definitions
@@ -134,8 +133,6 @@ function startNewGame(diff) {
 
     pressedKey = '';
 
-    gameState = 'INGAME' // INGAME, END, PAUSED
-
     points = 0;
 
     gameTime = 0;
@@ -159,14 +156,46 @@ function loadNewGame(id) {
     enemyProb = data.enemyProb;
     bulletProb = data.bulletProb;
     killPoint = data.killPoint;
-    enemies = data.enemies;
-    powerups = data.powerups;
-    bullets = data.bullets;
+    enemies = [];
+    data.enemies.forEach(enemy => {
+        enemies.push({
+            x: enemy.x,
+            y: enemy.y,
+            width: enemy.width,
+            height: enemy.height,
+            vx: enemy.vx,
+            vy: enemy.vy,
+            alive: enemy.alive});
+    });
+    powerups = []
+    data.powerups.forEach(powerup => {
+        powerups.push({
+            x: powerup.x,
+            y: powerup.y,
+            width: powerup.width,
+            height: powerup.height,
+            speed: powerup.speed,
+            alive: powerup.alive,
+            type: type 
+        })
+    });
+    bullets = [];
+    data.bullets.forEach(bullet => {
+        bullets.push({
+            x: bullet.x,
+            y: bullet.y,
+            width: bullet.width,
+            height: bullet.height,
+            speed: bullet.speed,
+            alive: bullet.alive,
+            color: bullet.color
+        })
+    })
     pressedKey = data.pressedKey;
-    gameState = 'INGAME';
     points = data.points;
     gameTime = data.gameTime;
 
+    loadbtn.innerHTML = "Betöltés"
     savesDiv.toggleAttribute("hidden");
     gameDiv.toggleAttribute("hidden");
 
@@ -184,7 +213,9 @@ function loadJSON() {
     }
     gamesArr = [];
     for (const element of gamesObj) {
-        gamesArr.push(JSON.parse(element[1]["gamedata"]));
+        if (element[1]["game"] === "space_shooter") {
+            gamesArr.push(JSON.parse(element[1]["gamedata"]));
+        }
     }
     let divstr = "<br><ul>";
     let i = 0;
@@ -222,6 +253,7 @@ function drawMiniCanvas(minicanvas, data) {
     data.ship.x = data.ship.x > minicanvas.width - data.ship.width ? minicanvas.width - data.ship.width : data.ship.x;
     data.ship.x = data.ship.x < 0 ? 0 : data.ship.x;
     
+    minictx.fillStyle = 'rgb(200, 0, 0)';
     if (gameState !== 'END') {
         minictx.drawImage(images.ship, data.ship.x, data.ship.y, data.ship.width, data.ship.height);
     }
@@ -233,6 +265,7 @@ function drawMiniCanvas(minicanvas, data) {
     }
 
     //ellenségek
+    minictx.fillStyle = 'rgb(0, 200, 0)';
     data.enemies.forEach(enemy => {
         minictx.drawImage(images.enemy, enemy.x, enemy.y, enemy.width, enemy.height);
     });
@@ -285,14 +318,25 @@ function startAnimation()
     showText('3');
     setTimeout(showText, 1000, '2');
     setTimeout(showText, 2000, '1');
+    setTimeout(setInGame, 2900);
+}
+
+function setInGame() {
+    gameState = "INGAME";
 }
 
 function setTimeNow() {
+    if (gameState != "INGAME") {
+        return;
+    }
     lastTime = performance.now();
 }
 
 
 function timePass() {
+    if (gameState != "INGAME") {
+        return;
+    }
     ++gameTime;
     ship.blue = ship.blue === 0 ? 0 : --ship.blue;
     ship.green = ship.green === 0 ? 0 : --ship.green;
@@ -303,6 +347,9 @@ function timePass() {
 }
 
 function gameLoop(now = performance.now()) {
+    if (gameState != "INGAME") {
+        return;
+    }
 
     const dt = (now - lastTime) / 1000;
     lastTime = now;
@@ -535,28 +582,81 @@ function onKeyUp(event) {
     }
 }
 
+
 function onStartClicked() {
-    if (gameState === 'LOADPAGE') return;
-    startbtn.innerHTML= "Új Játék";
+    startbtn.innerHTML = "Új Játék";
+    if (gameState === "INGAME" || gameState === "PAUSED") {
+        gameState = "SOONSTART";
+        if (easybtn.checked) {
+            startNewGame(0);
+        }
+        if (mediumbtn.checked) {
+            startNewGame(1);
+        }
+        if (hardbtn.checked) {
+            startNewGame(2);
+        }
+        pausebtn.innerHTML = "Szünet";
+        startAnimation();
+        setTimeout(setTimeNow, 3000);
+        setTimeout(timePass, 3000);
+        setTimeout(gameLoop, 3000);
+    }
+    if (gameState === "END") {
+        if (easybtn.checked) {
+            startNewGame(0);
+        }
+        if (mediumbtn.checked) {
+            startNewGame(1);
+        }
+        if (hardbtn.checked) {
+            startNewGame(2);
+        }
+    
+        startAnimation();
+        setTimeout(setTimeNow, 3000);
+        setTimeout(timePass, 3000);
+        setTimeout(gameLoop, 3000);
+    }
     if (gameState === 'NOTYETSTARTED') {
         gameDiv.toggleAttribute('hidden');
+        if (easybtn.checked) {
+            startNewGame(0);
+        }
+        if (mediumbtn.checked) {
+            startNewGame(1);
+        }
+        if (hardbtn.checked) {
+            startNewGame(2);
+        }
+    
+        startAnimation();
+        setTimeout(setTimeNow, 3000);
+        setTimeout(timePass, 3000);
+        setTimeout(gameLoop, 3000);
     }
-
-    if (easybtn.checked) {
-        startNewGame(0);
+    if (gameState === "LOADPAGENOGAMESTARTED" || gameState === "LOADPAGE" || gameState === "LOADPAGEEND") {
+        savesDiv.toggleAttribute("hidden");
+        gameDiv.toggleAttribute("hidden");
+        loadbtn.innerHTML = "Betöltés";
+        if (easybtn.checked) {
+            startNewGame(0);
+        }
+        if (mediumbtn.checked) {
+            startNewGame(1);
+        }
+        if (hardbtn.checked) {
+            startNewGame(2);
+        }
+    
+        startAnimation();
+        setTimeout(setTimeNow, 3000);
+        setTimeout(timePass, 3000);
+        setTimeout(gameLoop, 3000);
     }
-    if (mediumbtn.checked) {
-        startNewGame(1);
+    if (gameState === "LOADPAGE") {
+        
     }
-    if (hardbtn.checked) {
-        startNewGame(2);
-    }
-    gameState = 'INGAME';
-
-    startAnimation();
-    setTimeout(setTimeNow, 3000);
-    setTimeout(timePass, 3000);
-    setTimeout(gameLoop, 3000);
 }
 
 function onPauseClicked() {
@@ -565,7 +665,7 @@ function onPauseClicked() {
         pausebtn.innerHTML = "Vissza a játékhoz";
         gameState = 'PAUSED';
     } else if(gameState === 'PAUSED') {
-        pausebtn.innerHTML = "Pause";
+        pausebtn.innerHTML = "Szünet";
         gameState = 'INGAME';
         startAnimation();
         setTimeout(setTimeNow, 3000);
@@ -593,28 +693,58 @@ function onSaveClicked() {
     var jsonObj = JSON.stringify(gameObj);
 
     location.replace('save_ss.php?data='+jsonObj);
-}  
+}
+
+function loadcanvasloop() {
+    if (gameState != "LOADPAGE" && gameState != "LOADPAGENOGAMESTARTED" && gameState != "LOADPAGEEND") {
+        return;
+    }
+    let i = 0
+    canvasArr.forEach(element => {
+        drawMiniCanvas(element, gamesArr[i]);
+        ++i;
+    });
+    setTimeout(loadcanvasloop, 1000);
+}
 
 function onLoadClicked() {
     savesDiv.toggleAttribute("hidden");
-    if (gameState === 'INGAME') {
-        loadbtn.innerHTML = "Vissza a játékhoz";
-        gameState = 'LOADPAGE';
-        gameDiv.toggleAttribute("hidden");
-    } else if(gameState === 'LOADPAGE') {
+    if(gameState === 'LOADPAGE') {
         gameDiv.toggleAttribute("hidden");
         loadbtn.innerHTML = "Betöltés";
         gameState = 'INGAME';
         startAnimation();
         setTimeout(setTimeNow, 3000);
         setTimeout(gameLoop, 3000);
-    } else if (gameState === 'NOTYETSTARTED') {
-        gameState = 'LOADPAGE';
+    } else if (gameState === 'INGAME') {
+      loadbtn.innerHTML = "Vissza a játékhoz";
+      gameState = 'LOADPAGE';
+      loadcanvasloop();
+      gameDiv.toggleAttribute("hidden");
     }
+    if (gameState === "LOADPAGENOGAMESTARTED") {
+        loadbtn.innerHTML = "Betöltés"
+        gameState = "NOTYETSTARTED";
+    } else if (gameState === "NOTYETSTARTED") {
+        loadbtn.innerHTML = "Vissza a játékhoz";
+        gameState = 'LOADPAGENOGAMESTARTED';
+        loadcanvasloop();
+    }
+    if (gameState === "LOADPAGEEND") {
+        loadbtn.innerHTML = "Betöltés"
+        gameState = "END";
+        gameDiv.toggleAttribute("hidden");
+    } else if (gameState === "END") {
+      loadbtn.innerHTML = "Vissza a játékhoz";
+      gameState = 'LOADPAGEEND';
+      loadcanvasloop();
+      gameDiv.toggleAttribute("hidden");
+    }
+
 }
 
 function onPageClicked(event) {
-    if (gameState !== 'LOADPAGE') return;
+    if (gameState != 'LOADPAGE' && gameState != "LOADPAGENOGAMESTARTED" && gameState != "LOADPAGEEND") return;
     if (event.explicitOriginalTarget.nodeName != "CANVAS") {
         return;
     }

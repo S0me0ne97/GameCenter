@@ -55,6 +55,7 @@ $savesJSON = json_encode($saves);
     <div id="game" hidden>
         <label id="minutes">00</label>:<label id="seconds">00</label>
         <label id="points">pontok: 0</label>
+        <button id="refresh">Újratöltés</button>
         <table id="gametable"></table>
     </div>
 

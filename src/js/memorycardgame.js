@@ -230,7 +230,6 @@ function pad(val) {
     }
 }
 
-
 function onStartClicked() {
   startbtn.innerHTML = "Új Játék";
   points = 0;
@@ -268,7 +267,7 @@ function onStartClicked() {
     generateTable(tablesize);
     addEventListener();
     totalSeconds = 101;
-    setTimeout(setTime, 1000); 
+    setTimeout(setTime, 1000);
   }
   if (gamestate === 'NOTYETSTARTED') {
     if (easybtn.checked) {

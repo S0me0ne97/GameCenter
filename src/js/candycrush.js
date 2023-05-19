@@ -2,6 +2,7 @@ var startbtn = document.getElementById("startbtn");
 var pausebtn = document.getElementById("pause");
 var savebtn = document.getElementById("save");
 var loadbtn = document.getElementById("load");
+var refreshbtn = document.getElementById("refresh");
 
 var easybtn = document.getElementById("easy");
 var mediumbtn = document.getElementById("medium");
@@ -110,9 +111,19 @@ function checkMatrix(matrix) {
     for (let j = 1; j < matrix[i].length; j++) {
       if (matrix[i][j] === matrix[i][j-1]) {
         count++;
-        if (count >= 3) {
-          return [[i,j-2],[i,j-1],[i,j]];
+        if (count >= 5) {
+          return [[i,j-4],[i,j-3],[i,j-2],[i,j-1],[i,j]];
         }
+        if (count === 4 && j === matrix.length - 1) {
+          return [[i,j-3],[i,j-2],[i,j-1],[i,j]]
+        }
+        if (count === 3 && j === matrix.length - 1) {
+          return [[i,j-2],[i,j-1],[i,j]]
+        }
+      } else if (count === 4) {
+        return [[i,j-4],[i,j-3],[i,j-2],[i,j-1]];
+      } else if (count === 3) {
+        return [[i,j-3],[i,j-2],[i,j-1]];
       } else {
         count = 1;
       }
@@ -125,9 +136,19 @@ function checkMatrix(matrix) {
     for (let i = 1; i < matrix.length; i++) {
       if (matrix[i][j] === matrix[i-1][j]) {
         count++;
-        if (count >= 3) {
+        if (count >= 5) {
+          return [[i-4,j],[i-3,j],[i-2,j],[i-1,j],[i,j]];
+        }
+        if (count === 4 && i === matrix.length - 1) {
+          return [[i-3,j],[i-2,j],[i-1,j],[i,j]];
+        }
+        if (count === 3 && i === matrix.length - 1) {
           return [[i-2,j],[i-1,j],[i,j]];
         }
+      } else if (count === 4) {
+        return [[i-4,j],[i-3,j],[i-2,j],[i-1,j]];
+      } else if (count === 3) {
+        return [[i-3,j],[i-2,j],[i-1,j]];
       } else {
         count = 1;
       }
@@ -188,7 +209,6 @@ function areAdjacent(coord1, coord2) {
 
 
 async function moved(first, second) {
-  gamestate = "MOVING"; 
   if (!areAdjacent(first,second)) {
     switch (gamematrix[firstChosen[0]][firstChosen[1]]) {
       case 0:
@@ -208,7 +228,6 @@ async function moved(first, second) {
         break;
     }
     firstChosen = [];
-    gamestate = "INGAME";
     return;
   }
   let tempgamematrix = gamematrix.slice();
@@ -239,7 +258,6 @@ async function moved(first, second) {
         break;
     }
     firstChosen = [];
-    gamestate = "INGAME";
     updateTable();
     return;
   }
@@ -291,11 +309,10 @@ async function moved(first, second) {
     refill(cells);
     cells = checkMatrix(gamematrix);
     updateTable();
-    gamestate = "INGAME"
   }
 }
 
-function getClickedCell(event) {
+async function getClickedCell(event) {
     if (gamestate != "INGAME") {
       return;
     }
@@ -330,9 +347,11 @@ function getClickedCell(event) {
      }
 
      if (secondChosen.length != 0) {
-       moved(firstChosen, secondChosen);
+       gamestate = "MOVING";
+       await moved(firstChosen, secondChosen);
        firstChosen = [];
        secondChosen = [];
+       gamestate = "INGAME"
      }
 }
 
@@ -481,6 +500,7 @@ function loadJSON() {
   }
   gamesArr = [];
   for (const element of gamesObj) {
+      console.log(gamesObj);
       if (element[1]["game"] === "candycrush") {
           gamesArr.push(JSON.parse(element[1]["gamedata"]));
       }
@@ -569,11 +589,17 @@ function loadNewGame(id) {
   }
 }
 
+function onRefreshClicked() {
+  generateRandomMatrix(tablesize, minNum, maxNum);
+  updateTable()
+}
+
 document.addEventListener('click', onPageClicked);
 startbtn.addEventListener('click', onStartClicked);
 pausebtn.addEventListener('click', onPauseClicked);
 savebtn.addEventListener('click', onSaveClicked);
 loadbtn.addEventListener('click', onLoadClicked);
+refreshbtn.addEventListener('click', onRefreshClicked);
 
 loadJSON()
 

@@ -17,6 +17,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 
 
 let gamesArr = [];
+let canvasArr = [];
 
 let gameTime = 0;
 let basesize = 100;
@@ -45,8 +46,15 @@ let secondchosen = -1;
 
 
 function draw() {
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const image = new Image();
+    image.src = '../media/bg_load.png';
+    image.onload = function() {
+        console.log(`Image loaded`);
+    };
+    image.onerror = function() {
+        console.log(`Error loading image`);
+    };
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
     gamebases.forEach(base => {
         ctx.fillStyle = "black";
@@ -299,6 +307,18 @@ function onSaveClicked() {
     location.replace('save_miniwars.php?data='+jsonObj);
 }
 
+function loadcanvasloop() {
+    if (gameState != "LOADPAGE" && gameState != "LOADPAGENOGAMESTARTED" && gameState != "LOADPAGEEND") {
+        return;
+    }
+    let i = 0
+    canvasArr.forEach(element => {
+        drawMiniCanvas(element, gamesArr[i]);
+        ++i;
+    });
+    setTimeout(loadcanvasloop, 1000);
+}
+
 function onLoadClicked() {
     savesDiv.toggleAttribute("hidden");
     if(gameState === 'LOADPAGE') {
@@ -308,6 +328,7 @@ function onLoadClicked() {
     } else if (gameState === 'INGAME') {
       loadbtn.innerHTML = "Vissza a játékhoz";
       gameState = 'LOADPAGE';
+      loadcanvasloop();
       gameDiv.toggleAttribute("hidden");
     }
     if (gameState === "LOADPAGENOGAMESTARTED") {
@@ -316,6 +337,7 @@ function onLoadClicked() {
     } else if (gameState === "NOTYETSTARTED") {
         loadbtn.innerHTML = "Vissza a játékhoz";
         gameState = 'LOADPAGENOGAMESTARTED';
+        loadcanvasloop();
     }
     if (gameState === "LOADPAGEEND") {
         loadbtn.innerHTML = "Betöltés"
@@ -324,15 +346,24 @@ function onLoadClicked() {
     } else if (gameState === "END") {
       loadbtn.innerHTML = "Vissza a játékhoz";
       gameState = 'LOADPAGEEND';
+      loadcanvasloop();
       gameDiv.toggleAttribute("hidden");
     }
 
 }
 
 function drawMiniCanvas(minicanvas, data) {
-    var minictx = minicanvas.getContext('2d');
+    const image = new Image();
+    image.src = '../media/bg_load.png';
+    image.onload = function() {
+        console.log(`Image loaded`);
+    };
+    image.onerror = function() {
+        console.log(`Error loading image`);
+    };
+    let minictx = minicanvas.getContext('2d');
     minictx.fillStyle = "white";
-    minictx.fillRect(0, 0, minicanvas.width, minicanvas.height);
+    minictx.drawImage(image, 0, 0, minicanvas.width, minicanvas.height);
 
     data.gamebases.forEach(base => {
         minictx.fillStyle = "black";
@@ -441,7 +472,7 @@ function loadJSON() {
     })
     divstr += "</ul>"
     savesDiv.innerHTML = divstr;
-    let canvasArr = [];
+    canvasArr = [];
     for (let index = 0; index < gamesArr.length; index++) {
         canvasArr.push(document.getElementById(index));
     }
