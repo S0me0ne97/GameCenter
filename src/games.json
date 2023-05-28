@@ -1,73 +1,124 @@
 {
     "1": {
         "name": "Space Shooter",
-        "type": "shooter",
+        "type": "l\u00f6v\u00f6ld\u00f6z\u0151s",
         "rating": 10,
         "text": "valami",
         "id": "1",
-        "highscores": {
-            "1": {
-                "name": "balint",
-                "score": "10"
+        "pic": "..\/media\/spaceshooter.png",
+        "highscores": [
+            {
+                "1": {
+                    "name": "asd",
+                    "point": "0"
+                }
             },
-            "2": {
-                "name": "peti",
-                "score": "920"
+            {
+                "2": {
+                    "name": "asd",
+                    "point": "0"
+                }
             },
-            "3": {
-                "name": "anna",
-                "score": "100"
+            {
+                "3": {
+                    "name": "asd",
+                    "point": "0"
+                }
             }
-        },
+        ],
         "page": "space_shooter.php"
     },
     "2": {
         "name": "Mini Wars",
-        "type": "action",
+        "type": "akci\u00f3",
         "rating": 3,
         "text": "valami",
+        "pic": "..\/media\/miniwars.png",
         "id": "2",
-        "highscores": {
-            "1": {
-                "name": "balint",
-                "score": "80"
+        "highscores": [
+            {
+                "1": {
+                    "name": "asd",
+                    "point": "10"
+                }
             },
-            "2": {
-                "name": "peti",
-                "score": "90"
+            {
+                "2": {
+                    "name": "asd",
+                    "point": "10"
+                }
             },
-            "3": {
-                "name": "anna",
-                "score": "100"
+            {
+                "3": {
+                    "name": "asd",
+                    "point": "-20"
+                }
+            },
+            {
+                "4": {
+                    "name": "asd",
+                    "point": "180"
+                }
             }
-        },
+        ],
         "page": "miniwars.php"
     },
     "3": {
-        "name": "Candy Crush",
-        "type": "logic",
-        "rating": 4,
-        "text": "valami",
-        "id": "3",
-        "highscores": {
-            "1": {
-                "name": "balint",
-                "score": "80"
-            },
-            "2": {
-                "name": "peti",
-                "score": "90"
-            }
-        },
-        "page": "candycrush.php"
-    },
-    "4": {
-        "name": "K\u00e1rty\u00e1s mem\u00f3riaj\u00e1t\u00e9k",
-        "type": "logic",
+        "name": "K\u00f6ss \u00f6ssze H\u00e1rmat",
+        "type": "logikai",
         "rating": 3,
         "text": "valami",
         "id": "4",
-        "highscores": [],
+        "pic": "..\/media\/connect3.png",
+        "highscores": [
+            {
+                "1": {
+                    "name": "asd",
+                    "point": "0"
+                }
+            },
+            {
+                "2": {
+                    "name": "Vida B\u00e1lint",
+                    "point": "550"
+                }
+            }
+        ],
+        "page": "connect3.php"
+    },
+    "4": {
+        "name": "K\u00e1rty\u00e1s mem\u00f3riaj\u00e1t\u00e9k",
+        "type": "logikai",
+        "rating": 3,
+        "text": "valami",
+        "id": "4",
+        "pic": "..\/media\/memorygame.png",
+        "highscores": [
+            {
+                "1": {
+                    "name": "asd",
+                    "point": "0"
+                }
+            },
+            {
+                "2": {
+                    "name": "asd",
+                    "point": "0"
+                }
+            },
+            {
+                "3": {
+                    "name": "asd",
+                    "point": "640"
+                }
+            },
+            {
+                "4": {
+                    "name": "asd",
+                    "point": "690"
+                }
+            }
+        ],
         "page": "memorycardgame.php"
     }
 }

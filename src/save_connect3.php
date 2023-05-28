@@ -15,11 +15,11 @@ if (isset($_GET['data'])) {
     $decoded = json_decode($_GET['data']);
     $user = $auth->authenticated_user();
     $savedgame['userid'] = $user["id"];
-    $savedgame['game'] = "candycrush";
+    $savedgame['game'] = "connect3";
     $savedgame['gamedata'] = $_GET['data'];
     $saves->add($savedgame);
     
-    header("Location: candycrush.php");
+    header("Location: connect3.php");
 }
 
 ?>

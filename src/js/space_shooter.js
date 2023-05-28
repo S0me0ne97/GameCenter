@@ -3,6 +3,7 @@ var startbtn = document.getElementById("startbtn");
 var pausebtn = document.getElementById("pause");
 var loadbtn = document.getElementById("load");
 var savebtn = document.getElementById("save");
+var descbtn = document.getElementById("description");
 
 var easybtn = document.getElementById("easy");
 var mediumbtn = document.getElementById("medium");
@@ -14,6 +15,9 @@ var savesDiv = document.getElementById("savesdiv");
 
 var saveData = document.getElementById("data");
 var passData = document.getElementById("passdata");
+var useridDiv = document.getElementById("userid");
+var descDiv = document.getElementById("descriptionDiv");
+let userid = useridDiv.innerHTML;
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -213,7 +217,7 @@ function loadJSON() {
     }
     gamesArr = [];
     for (const element of gamesObj) {
-        if (element[1]["game"] === "space_shooter") {
+        if (element[1]["game"] === "space_shooter" && element[1]["userid"] === userid.trim()) {
             gamesArr.push(JSON.parse(element[1]["gamedata"]));
         }
     }
@@ -301,9 +305,9 @@ function drawMiniCanvas(minicanvas, data) {
     minictx.fillStyle = 'white';
     minictx.font = '15px Courier New';
     minictx.fillText(`Points: ${data.points}`, 10, 10);
-    minictx.fillText(`Life: ${data.ship.life}`, 10, 30);
-    minictx.fillText(`Kék: ${data.ship.blue}s`, 10, 50);
-    minictx.fillText(`Zöld: ${data.ship.green}s`, 10, 70);
+    minictx.fillText(`Élet: ${data.ship.life}`, 10, 30);
+    minictx.fillText(`Mozgási sebesség: ${data.ship.blue}s`, 10, 50);
+    minictx.fillText(`Elpusztíthatatlanság: ${data.ship.green}s`, 10, 70);
 }
 
 function showText(txt) {
@@ -332,10 +336,13 @@ function setTimeNow() {
     lastTime = performance.now();
 }
 
-
 function timePass() {
     if (gameState != "INGAME") {
         return;
+    }
+    pausebtn.disabled = false;
+    if (userid != 0) {
+        savebtn.disabled = false
     }
     ++gameTime;
     ship.blue = ship.blue === 0 ? 0 : --ship.blue;
@@ -483,7 +490,16 @@ function update(dt) {
 
     if (ship.life <= 0) {
         gameState = 'END'
+        pausebtn.disabled = true;
+        if (userid != 0) {
+            postScore();
+        }
     }
+}
+
+function postScore() {
+    var jsonString = JSON.stringify(points);
+    location.replace('postscore_spaceshooter.php?data='+jsonString);
 }
 
 function draw() {
@@ -541,9 +557,9 @@ function draw() {
     ctx.fillStyle = 'white';
     ctx.font = '15px Courier New';
     ctx.fillText(`Points: ${points}`, 10, 10);
-    ctx.fillText(`Life: ${ship.life}`, 10, 30);
-    ctx.fillText(`Kék: ${ship.blue}s`, 10, 50);
-    ctx.fillText(`Zöld: ${ship.green}s`, 10, 70);
+    ctx.fillText(`Élet: ${ship.life}`, 10, 30);
+    ctx.fillText(`Mozgási sebesség: ${ship.blue}s`, 10, 50);
+    ctx.fillText(`Elpusztíthatatlanság: ${ship.green}s`, 10, 70);
 
     //Vege
     if (gameState === 'END') {
@@ -581,7 +597,6 @@ function onKeyUp(event) {
         pressedKey = '';
     }
 }
-
 
 function onStartClicked() {
     startbtn.innerHTML = "Új Játék";
@@ -653,9 +668,6 @@ function onStartClicked() {
         setTimeout(setTimeNow, 3000);
         setTimeout(timePass, 3000);
         setTimeout(gameLoop, 3000);
-    }
-    if (gameState === "LOADPAGE") {
-        
     }
 }
 
@@ -750,6 +762,19 @@ function onPageClicked(event) {
     }
     loadNewGame(parseInt(event.explicitOriginalTarget.id));
 }
+
+function onDescriptionClicked() {
+    descDiv.toggleAttribute("hidden");
+}
+
+function onload()
+{
+  savebtn.disabled = true;
+  pausebtn.disabled = true;
+  if (userid == 0) {
+    loadbtn.disabled = true;
+  }
+}
 //#endregion Function definitions
 
 //#region Event listener
@@ -760,9 +785,11 @@ startbtn.addEventListener('click', onStartClicked);
 pausebtn.addEventListener('click', onPauseClicked);
 savebtn.addEventListener('click', onSaveClicked);
 loadbtn.addEventListener('click', onLoadClicked);
+descbtn.addEventListener('click', onDescriptionClicked);
 //#endregion Event listener
 
 //#region Game loop
 //#endregion Game loop
 
 loadJSON();
+onload();

@@ -8,7 +8,6 @@
 
     $gameStorage = new GameStorage();
     $games = $gameStorage->getAll();
-    sortByRating(false);
     $category = "";
 
     function chooseCateg() {
@@ -18,58 +17,23 @@
             return $value["type"] == $category;
         });
     }
-
-    function onlyLiked(){
-        global $auth;
-        $auth = new Auth(new UserStorage());
-        global $games;
-        $games = array_filter($games, function($value) {
-            global $auth;
-            return in_array($value["id"], $auth->authenticated_user()["liked"]);
-        });
-    }
-
-    function sortByRating($reversed) {
-        global $games;
-        usort($games, function ($item1, $item2) {
-            return $item2['rating'] <=> $item1['rating'];
-        });
-        if ($reversed) {
-            $games = array_reverse($games);
-        }
-    }
-
-    function getHighScoresInOrder($key) {
-        global $games;
-        usort($games[$key]["highscores"], function ($item1, $item2) {
-            return $item2['score'] <=> $item1['score'];
-        });
-        return $games[$key]["highscores"];
-    }
-
-    if(array_key_exists('rating', $_POST)) {
-        sortByRating(false);
-    }
-    if(array_key_exists('revrating', $_POST)) {
-        sortByRating(true);
-    }
-    if(array_key_exists('action', $_POST)) {
+    if(array_key_exists('akció', $_POST)) {
         global $category;
-        $category = "action";
+        $category = "akció";
         chooseCateg();
     }
-    if(array_key_exists('logic', $_POST)) {
+    if(array_key_exists('logikai', $_POST)) {
         global $category;
-        $category = "logic";
+        $category = "logikai";
         chooseCateg();
     }
-    if(array_key_exists('shooter', $_POST)) {
+    if(array_key_exists('lövöldözős', $_POST)) {
         global $category;
-        $category = "shooter";
+        $category = "lövöldözős";
         chooseCateg();
     }
-    if(array_key_exists('liked', $_POST)) {
-        onlyLiked();
+    if(array_key_exists('all', $_POST)) {
+        $games = $gameStorage->getAll();
     }
 ?>
 <!DOCTYPE html>
@@ -80,11 +44,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <title>Kategóriák | GC</title>
+    <link rel="icon" href="../media/logo_mini.png">
 </head>
 <body>
     <nav class="navbar">
         <ul>
-            <li><img src="media/logo.png" alt="Logo"></li>
+            <li><img src="../media/logo_mini.png" alt="Logo"></li>
             <li><a href="../index.php">Kezdőlap</a></li>
             <li><a href="categories.php">Játékok</a></li>
             <li><a href="contact.php">Kapcsolat</a></li>
@@ -98,40 +63,25 @@
     </nav>
     <div id="diszes_div">
         <form action="" method="post">
-            <input type="submit" name="rating"
-                    class="button" value="Értékelés alapján" />
-            <input type="submit" name="revrating"
-                    class="button" value="Értékelés alapján fordítva" />
-            <?php if($auth->is_authenticated()) : ?>
-                <input type="submit" name="liked"
-                        class="button" value="Kedvelt" />
-            <?php endif ?>
-            <input type="submit" name="action"
+            <br>
+            <input type="submit" name="all"
+                    class="button" value="Összes" />
+            <input type="submit" name="akció"
                     class="button" value="Akció" />
-            <input type="submit" name="shooter"
+            <input type="submit" name="lövöldözős"
                     class="button" value="Lövödözős" />
-            <input type="submit" name="logic"
+            <input type="submit" name="logikai"
                     class="button" value="Logikai" />
         </form>
         <div>
             <?php foreach ($games as $key => $value) : ?>
                 <p>
-                    <hr>
-                    Név: <?= $value['name'] ?><br>
+                    <?= $value['name'] ?><br>
                     Típus: <?= $value['type'] ?><br>
-                    Rating: <?= $value['rating'] ?><br>
-                    Leírás: <?= $value['text'] ?><br>
-                    Legjobb eredmények:
-                    <ul>
-                        <?php foreach (getHighScoresInOrder($key) as $id => $data) : ?>
-                            <li> <?=$data["name"]?>:<?=$data["score"]?> </li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <a href="<?= $value['page'] ?>">
+                        <img src="<?= $value['pic'] ?>" alt="<?= $value['pic'] ?>"><br>
+                    </a>
                     <br>
-                    <?php if($auth->is_authenticated()) : ?>
-                        <a href="like.php?liked=<?= $value["id"] ?>">Kedvel</a>
-                    <?php endif ?>
-                    <a href="<?= $value['page'] ?>">Játék</a>
                 </p>
             <?php endforeach; ?>  
         </div>

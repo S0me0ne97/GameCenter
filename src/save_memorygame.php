@@ -18,7 +18,6 @@ if (isset($_GET['data'])) {
     $savedgame['game'] = "memorygame";
     $savedgame['gamedata'] = $_GET['data'];
     $saves->add($savedgame);
-    
     header("Location: memorycardgame.php");
 }
 

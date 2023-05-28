@@ -23,10 +23,8 @@ class Auth {
       $user = [
         'username'  => $data['username'],
         'email'     => $data['email'],
-        'playedtime'=> 0,
         'password'  => password_hash($data['password'], PASSWORD_DEFAULT),
-        "roles"     => ["user"],
-        "liked"     => []
+        "roles"     => ["user"]
       ];
       return $this->user_storage->add($user);
     }
@@ -41,6 +39,10 @@ class Auth {
     
     public function is_authenticated() {
       return !is_null($this->user);
+    }
+
+    public function get_user() {
+      return $this->user['id'];
     }
   
     public function authorize($roles = []) {
@@ -63,6 +65,10 @@ class Auth {
     public function logout() {
       $this->user = NULL;
       unset($_SESSION["user"]);
+    }
+
+    public function get_username() {
+      return $this->user['username'];
     }
   
     public function authenticated_user() {

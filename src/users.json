@@ -1,18 +1,4 @@
 {
-    "62681e8f1ff6d": {
-        "username": "balint1",
-        "email": "vbalint1997@gmail.com",
-        "playedtime": 0,
-        "password": "$2y$10$9IjqeJLqmX3k3LEpBJcYfOFpsx89KW1hgSmLSABUaR6pXdsbhHIPG",
-        "roles": [
-            "admin"
-        ],
-        "liked": [
-            "4",
-            "1"
-        ],
-        "id": "62681e8f1ff6d"
-    },
     "62682687e2641": {
         "username": "balintusr",
         "email": "balintusr@gmail.com",
@@ -65,9 +51,45 @@
         "playedtime": 0,
         "password": "$2y$10$5nkmSUskAgUzgkwg23Z8Z.mYwpmL435EHie\/Gy8mtlXxqgNOTDs4K",
         "roles": [
-            "user"
+            "admin"
         ],
         "liked": [],
         "id": "6464eb98c10d6"
+    },
+    "646a88eed0937": {
+        "username": "valakik",
+        "email": "valakik@gmail.com",
+        "password": "$2y$10$9erDzk.f8QOh1eOOsx63Ge\/JPDknLlQFz\/mNv6ZyiU5Tr3bGnpG.i",
+        "roles": [
+            "user"
+        ],
+        "id": "646a88eed0937"
+    },
+    "646b26473f45d": {
+        "username": "asd1",
+        "email": "asd1@gmail.com",
+        "password": "$2y$10$EfoBgwzHRy6N1gLvbLMfzeRvbrU8hOQDham79309tv44s\/IDUXZzW",
+        "roles": [
+            "user"
+        ],
+        "id": "646b26473f45d"
+    },
+    "646e9f70bc5b4": {
+        "username": "en",
+        "email": "en@gmail.com",
+        "password": "$2y$10$EVCXY8vf9IMRatDsBS5EbOdTI\/i.7P\/.Zcb63HsQ4lWi0dtc08bUK",
+        "roles": [
+            "user"
+        ],
+        "id": "646e9f70bc5b4"
+    },
+    "6473885fa9d33": {
+        "username": "Vida B\u00e1lint",
+        "email": "e93r1v@inf.elte.hu",
+        "password": "$2y$10$8H5\/mnFgdSoU6sW5Qw0ggePQS\/e8wEhsgyPGmYcnJ39\/smxfcNbPW",
+        "roles": [
+            "user"
+        ],
+        "id": "6473885fa9d33"
     }
 }

@@ -2,6 +2,7 @@ var startbtn = document.getElementById("startbtn");
 var pausebtn = document.getElementById("pause");
 var savebtn = document.getElementById("save");
 var loadbtn = document.getElementById("load");
+var descbtn = document.getElementById("description");
 
 var easybtn = document.getElementById("easy");
 var mediumbtn = document.getElementById("medium");
@@ -18,6 +19,10 @@ var gametable = document.getElementById("gametable");
 var minutesLabel = document.getElementById("minutes");
 var secondsLabel = document.getElementById("seconds");
 var pointsLabel = document.getElementById("points");
+var useridDiv = document.getElementById("userid");
+var descDiv = document.getElementById("descriptionDiv");
+let userid = useridDiv.innerHTML;
+
 
 let tablesize = 12;
 let gamematrix = [];
@@ -149,6 +154,11 @@ function closeChosen() {
     gametable.children[0].childNodes[secondChosen[0]].childNodes[secondChosen[1]].innerHTML = "<img src='../../media/memorycardgame/basic.png' alt='green'/>";
 }
 
+function postScore() {
+    var jsonString = JSON.stringify(points);
+    location.replace('postscore_memorygame.php?data='+jsonString);
+}
+
 async function checkPair() {
     if (gamematrix[firstChosen[0] * (tablesize / 2) + firstChosen[1]] === gamematrix[secondChosen[0] * (tablesize / 2) + secondChosen[1]]) {
         points += 50;
@@ -158,7 +168,12 @@ async function checkPair() {
         secondChosen = [];
         if (revealedarr.length == tablesize / 2) {
             gamestate = "END"
+            pausebtn.disabled = true;
             points += totalSeconds * 5;
+            if (userid != 0) {
+                savebtn.disabled = true;
+                postScore();
+            }
         }
     }
     else {
@@ -203,7 +218,14 @@ function getClickedCell(event) {
 }
 
 function setTime() {
-    if (gamestate === "PAUSED") {
+    if (gamestate != "NOTYETSTARTED") {
+        if (userid != 0) {
+            savebtn.disabled = false;
+        }
+        pausebtn.disabled = false;
+    }
+    startbtn.innerHTML = "Új Játék";
+    if (gamestate === "PAUSED" || gamestate === "LOADPAGE") {
       setTimeout(setTime, 1000);
       return;
     }
@@ -212,6 +234,11 @@ function setTime() {
     }
     if (totalSeconds <= 0) {
       gamestate = "END";
+      pausebtn.disabled = true;
+      savebtn.disabled = true;
+      if (userid != 0) {
+        postScore();
+      }
       return;
     }
     --totalSeconds;
@@ -288,6 +315,47 @@ function onStartClicked() {
     addEventListener();
     setTimeout(setTime, 1000);
   }
+  if (gamestate === "LOADPAGENOGAMESTARTED" || gamestate === "LOADPAGEEND") {
+    savesDiv.toggleAttribute("hidden");
+    loadbtn.innerHTML = "Betöltés";
+    if (easybtn.checked) {
+        tablesize = 8;
+      }
+      if (mediumbtn.checked) {
+        tablesize = 10;
+      }
+      if (hardbtn.checked) {
+        tablesize = 12;
+      }
+      totalSeconds = 101;
+      gameDiv.toggleAttribute('hidden');
+      gamestate = "INGAME";
+  
+      generateRandomMatrix(tablesize);
+      generateTable(tablesize);
+      addEventListener();
+      setTimeout(setTime, 1000);
+    }
+    if (gamestate === "LOADPAGE") {
+        savesDiv.toggleAttribute("hidden");
+        loadbtn.innerHTML = "Betöltés";
+        if (easybtn.checked) {
+            tablesize = 8;
+        }
+        if (mediumbtn.checked) {
+            tablesize = 10;
+        }
+        if (hardbtn.checked) {
+            tablesize = 12;
+        }
+        totalSeconds = 101;
+        gameDiv.toggleAttribute('hidden');
+        gamestate = "INGAME";
+    
+        generateRandomMatrix(tablesize);
+        generateTable(tablesize);
+        addEventListener();
+    }
 }
 
 function onPauseClicked() {
@@ -353,7 +421,7 @@ function loadJSON() {
     }
     gamesArr = [];
     for (const element of gamesObj) {
-        if (element[1]["game"] === "memorygame") {
+        if (element[1]["game"] === "memorygame" && element[1]["userid"] == userid.trim()) {
             gamesArr.push(JSON.parse(element[1]["gamedata"]));
         }
     }
@@ -456,12 +524,27 @@ function loadNewGame(id) {
       gamestate = "INGAME";
     }
   }
+ 
+function onDescriptionClicked() {
+    descDiv.toggleAttribute("hidden");
+}
 
 document.addEventListener('click', onPageClicked);
 startbtn.addEventListener('click', onStartClicked);
 pausebtn.addEventListener('click', onPauseClicked);
 savebtn.addEventListener('click', onSaveClicked);
 loadbtn.addEventListener('click', onLoadClicked);
+descbtn.addEventListener('click', onDescriptionClicked);
+
+function onload()
+{
+  savebtn.disabled = true;
+  pausebtn.disabled = true;
+  if (userid == 0) {
+    loadbtn.disabled = true;
+  }
+}
+
 
 loadJSON()
-
+onload()

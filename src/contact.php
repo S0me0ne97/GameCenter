@@ -55,11 +55,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <title>Kapcsolat | GC</title>
+    <link rel="icon" href="../media/logo_mini.png">
 </head>
 <body>
     <nav class="navbar">
         <ul>
-            <li><img src="media/logo.png" alt="Logo"></li>
+            <li><img src="../media/logo_mini.png" alt="Logo"></li>
             <li><a href="../index.php">Kezdőlap</a></li>
             <li><a href="categories.php">Játékok</a></li>
             <li><a href="contact.php">Kapcsolat</a></li>
@@ -80,7 +81,7 @@
 
             </div>
             <label for="name" id="left">Név:</label>
-            <input type="text" name="name" id="name" value="<?= $_POST['name'] ?? "Gipsz Jakab" ?>">
+            <input type="text" name="name" id="name" value="<?= $_POST['name'] ?? "Gipsz Jakab" ?>"> <br>
             <?php if(count($_POST) > 0 && $errors['name'] !== '') : ?>
                 <span class="error">
                     <?= $errors['name'] ?>
@@ -89,7 +90,7 @@
             <br><br>
 
             <label for="email" id="left">E-mail cím:</label>
-            <input type="text" name="email" id="email" value="<?= $_POST['email'] ?? "gipsz.jakab@pelda.hu" ?>">
+            <input type="text" name="email" id="email" value="<?= $_POST['email'] ?? "gipsz.jakab@pelda.hu" ?>"> <br>
             <?php if (isset($errors['email'])) : ?>
                 <span class="error"><?= $errors['email'] ?></span>
             <?php endif; ?>
@@ -105,7 +106,7 @@
             
             <br><br>
             <label for="text" id="left">Szöveg:</label><br>
-            <textarea name="text" id="text" cols="30" rows="10" ><?= $_POST['text'] ?? "Ide irja a szoveget..." ?></textarea>
+            <textarea name="text" id="text" cols="30" rows="10" ><?= $_POST['text'] ?? "Ide irja a szoveget..." ?></textarea> <br>
             <?php if (isset($errors['text'])) : ?>
                 <span class="error"><?= $errors['text'] ?></span>
             <?php endif; ?>

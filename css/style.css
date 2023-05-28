@@ -61,6 +61,30 @@ button {
     cursor: pointer;
 }
 
+button:disabled {
+    color: gray;
+    background-color: #17191a;
+    border: 1px solid gray;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0px 0px;
+    cursor: pointer;
+}
+
+button:hover:disabled {
+    color: rgb(72, 72, 72);
+    background-color: #17191a;
+    border: 1px solid rgb(72, 72, 72);
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0px 0px;
+    cursor: pointer;
+}
+
 button:hover {
     color: #1d2731;
     background-color: #ffcb05;

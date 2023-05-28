@@ -75,7 +75,7 @@
         return $id;
       }
 
-      public function getAll()
+      public function  getAll()
       {
         return $this->contents; 
       }
