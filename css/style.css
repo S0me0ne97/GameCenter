@@ -61,6 +61,30 @@ button {
     cursor: pointer;
 }
 
+button:disabled {
+    color: gray;
+    background-color: #17191a;
+    border: 1px solid gray;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0px 0px;
+    cursor: pointer;
+}
+
+button:hover:disabled {
+    color: rgb(72, 72, 72);
+    background-color: #17191a;
+    border: 1px solid rgb(72, 72, 72);
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0px 0px;
+    cursor: pointer;
+}
+
 button:hover {
     color: #1d2731;
     background-color: #ffcb05;
@@ -78,18 +102,30 @@ body {
     margin-bottom: 65px;
 }
 
-div.body {
+#diszes_div {
     background-color: #235789;
-    display: flex;
+    display: grid;
     width: 90%;
     margin: auto;
-    border-radius: 15px;
+    border-radius: 20px;
     align-items: center;
+    position: relative;
+}
+
+#left {
+    position: absolute;
+    left: 25%;
+}
+
+#email, #name{
+    position: absolute;
+    left: 45%;
 }
 
 input, textarea{
     color: #000;
     text-align: left;
+    border-radius: 5px;
 }
 
 /*Footer*/
@@ -100,4 +136,19 @@ footer {
     height: 50px;
     bottom: 0px;
     background-color: #1d2731;
+}
+
+canvas {
+    /*border: 3px solid #000000;*/
+    background-color: #000000;
+    /*border-radius: 25px;*/
+}
+
+th {
+    border: 2px solid;
+    width: auto;
+}
+
+.memorygame {
+    border: none;
 }

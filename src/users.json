@@ -1,29 +1,11 @@
 {
-    "62681e8f1ff6d": {
-        "username": "balint1",
-        "email": "vbalint1997@gmail.com",
-        "playedtime": 0,
-        "password": "$2y$10$9IjqeJLqmX3k3LEpBJcYfOFpsx89KW1hgSmLSABUaR6pXdsbhHIPG",
+    "6473885fa9d33": {
+        "username": "Vida B\u00e1lint",
+        "email": "e93r1v@inf.elte.hu",
+        "password": "$2y$10$8H5\/mnFgdSoU6sW5Qw0ggePQS\/e8wEhsgyPGmYcnJ39\/smxfcNbPW",
         "roles": [
             "admin"
         ],
-        "liked": [
-            3
-        ],
-        "id": "62681e8f1ff6d"
-    },
-    "62682687e2641": {
-        "username": "balintusr",
-        "email": "balintusr@gmail.com",
-        "playedtime": 0,
-        "password": "$2y$10$MJkfvj0QLt398Y67IjLvtOF0kwwv2pdQFnpeJhyFafnH1vcEzOZEq",
-        "roles": [
-            "user"
-        ],
-        "liked": [
-            3,
-            2
-        ],
-        "id": "62682687e2641"
+        "id": "6473885fa9d33"
     }
 }

@@ -8,45 +8,32 @@
 
     $gameStorage = new GameStorage();
     $games = $gameStorage->getAll();
-
-    $reversedOrder = true;
-    $category = "logic";
+    $category = "";
 
     function chooseCateg() {
         global $games;
-        return array_filter($games, function($value){
+        $games = array_filter($games, function($value){
             global $category;
             return $value["type"] == $category;
         });
     }
-
-    function onlyLiked(){
-        global $games;
-        return array_filter($games, function($value) {
-            global $auth;
-            return in_array($value["id"], $auth->authenticated_user()["liked"]);
-        });
+    if(array_key_exists('akció', $_POST)) {
+        global $category;
+        $category = "akció";
+        chooseCateg();
     }
-
-    function sortByRating($reversed) {
-        global $games;
-        usort($games, function ($item1, $item2) {
-            return $item2['rating'] <=> $item1['rating'];
-        });
-        if (!$reversed) {
-            return $games;
-        }
-        else {
-            return array_reverse($games);
-        }
+    if(array_key_exists('logikai', $_POST)) {
+        global $category;
+        $category = "logikai";
+        chooseCateg();
     }
-
-    function getHighScoresInOrder($key) {
-        global $games;
-        usort($games[$key]["highscores"], function ($item1, $item2) {
-            return $item2['score'] <=> $item1['score'];
-        });
-        return $games[$key]["highscores"];
+    if(array_key_exists('lövöldözős', $_POST)) {
+        global $category;
+        $category = "lövöldözős";
+        chooseCateg();
+    }
+    if(array_key_exists('all', $_POST)) {
+        $games = $gameStorage->getAll();
     }
 ?>
 <!DOCTYPE html>
@@ -57,13 +44,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <title>Kategóriák | GC</title>
+    <link rel="icon" href="../media/logo_mini.png">
 </head>
 <body>
     <nav class="navbar">
         <ul>
-            <li><img src="media/logo.png" alt="Logo"></li>
+            <li><img src="../media/logo_mini.png" alt="Logo"></li>
             <li><a href="../index.php">Kezdőlap</a></li>
-            <li><a href="categories.php">Kategóriák</a></li>
+            <li><a href="categories.php">Játékok</a></li>
             <li><a href="contact.php">Kapcsolat</a></li>
             <?php if(!$auth->is_authenticated()) : ?>
                 <li><a id="right" href="login.php">Bejelentkezés</a></li>
@@ -73,30 +61,36 @@
             <?php endif ?>
         </ul> 
     </nav>
-
-    <div>
-        <?php foreach (chooseCateg() as $key => $value) : ?>
-            <p>
-                <hr>
-                Név: <?= $value['name'] ?><br>
-                Típus: <?= $value['type'] ?><br>
-                Rating: <?= $value['rating'] ?><br>
-                Leírás: <?= $value['text'] ?><br>
-                Legjobb eredmények:
-                <ul>
-                    <?php foreach (getHighScoresInOrder($key) as $id => $data) : ?>
-                        <li> <?=$data["name"]?>:<?=$data["score"]?> </li>
-                    <?php endforeach; ?>
-                </ul>  
-                <br>
-            </p>
-        <?php endforeach; ?>  
+    <div id="diszes_div">
+        <form action="" method="post">
+            <br>
+            <input type="submit" name="all"
+                    class="button" value="Összes" />
+            <input type="submit" name="akció"
+                    class="button" value="Akció" />
+            <input type="submit" name="lövöldözős"
+                    class="button" value="Lövödözős" />
+            <input type="submit" name="logikai"
+                    class="button" value="Logikai" />
+        </form>
+        <div>
+            <?php foreach ($games as $key => $value) : ?>
+                <p>
+                    <?= $value['name'] ?><br>
+                    Típus: <?= $value['type'] ?><br>
+                    <a href="<?= $value['page'] ?>">
+                        <img src="<?= $value['pic'] ?>" alt="<?= $value['pic'] ?>"><br>
+                    </a>
+                    <br>
+                </p>
+            <?php endforeach; ?>  
+        </div>
     </div>
 
     <footer>
         <p>  
             Készítette: Vida Bálint - E93R1V
         </p>
-    </footer>    
+    </footer>
 </body>
 </html>
