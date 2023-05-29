@@ -75,6 +75,20 @@ $savesJSON = json_encode($saves);
     </div>
     <div id="descriptionDiv" hidden>
         <h3>Leírás</h3>
+        <p>
+            A játék célja, hogy minél tovább életben maradj és közben a lehető legtöbb ellenséges hajót pusztítsd el.
+        </p>
+        <p>
+            Az űrhajódat a balra és jobbra nyilakkal tudod mozgatni. Az x gomb lenyomásával tudsz lőni.
+            Ha eltalálsz egy ellenséges űrhajót, akkor az elpusztul, te pedig kapsz 10 pontot érte. Az ellenséges űrhajók is tudnak lőni, ha eltalálnak akkor elvesztesz egy életet.
+            Ha elpusztítasz egy ellenséges űrhajót, akkor lehet, hogy megjelenik a pályán egy kék zöld vagy piros erősítés.
+            Vedd fel az erősítést, és az alapján, hogy milyen színe van kapsz valami jutalmat érte.
+            A piros erősítés extra életet ad. A kék erősítés extra mozgási sebességet biztosít 20 másodpercig. A zöld erősítés pedig halhatatlanná tesz 20 másodpercig.
+            Vigyázz nehogy összeütközz egy ellenséges űrhajóval, mert akkor elveszted az összes életed.
+        </p>
+        <p>
+            A játéknak akkor van vége, ha elfogy az összes életed.
+        </p>
     </div>
     <br>
     <div id="game" hidden>

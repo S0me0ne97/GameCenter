@@ -70,6 +70,18 @@ $savesJSON = json_encode($saves);
     <br>
     <div id="descriptionDiv" hidden>
         <h3>Leírás</h3>
+        <p>
+            A játék célja hogy elfoglalj minden bázist a pályán.
+        </p>
+        <p>
+            A játékot az egér segítségével tudod irányítani. Kattints valamelyik kék bázisra (azokkal vagy te) és egy olyan bázisra ami össze van kötve a kiválasztott bázissal.
+            Ha a küldött egységeid többen vannak, mint a védekező egységek, akkor elfoglalod a megtámadott bázist.
+            A szürke bázisok semlegesek, ott nem történik egységtermelés. A piros bázisok az ellenségé, ő majd szintén megpróbálja elfoglalni a bázisokat.
+            Egységtermelés 3 másodpercenként történik. Minden elfoglalt bázis után kapsz 50 pontot.
+        </p>
+        <p>
+            A játéknak akkor van vége, ha vagy te vagy az ellenség elfoglalja az összes pályán látható bázist.
+        </p>
     </div>
     <br>
     <div id="gameDiv" hidden>

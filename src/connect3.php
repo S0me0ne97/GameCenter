@@ -76,6 +76,17 @@ $savesJSON = json_encode($saves);
     </div>
     <div id="descriptionDiv" hidden>
         <h3>Leírás</h3>
+        <p>
+            A játék célja, hogy egy sorban vagy oszlopban 3, 4 vagy 5 kör kerüljön egymás mellé.
+        </p>
+        <p>
+            A játékot az egérrel lehet irányítani. Kattints valamelyik mezőre, utána egy vele szomszédos mezőre, aminél úgy gondolod, hogy ha felcserélődnek, akkor lesz egy érvényes lépésed.
+            Ha nem látsz ilyen mozgatást, akkor 100 pont levonásáért újratöltheted a pályát.
+            50 pontot kapsz minden találat után. 
+        </p>
+        <p>
+            A játéknak akkor van vége, ha lejár az idő.
+        </p>
     </div>
     <br>
     <div id="game" hidden>

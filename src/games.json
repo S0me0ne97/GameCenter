@@ -2,120 +2,49 @@
     "1": {
         "name": "Space Shooter",
         "type": "l\u00f6v\u00f6ld\u00f6z\u0151s",
-        "rating": 10,
-        "text": "valami",
         "id": "1",
         "pic": "..\/media\/spaceshooter.png",
-        "highscores": [
-            {
-                "1": {
-                    "name": "asd",
-                    "point": "0"
-                }
-            },
-            {
-                "2": {
-                    "name": "asd",
-                    "point": "0"
-                }
-            },
-            {
-                "3": {
-                    "name": "asd",
-                    "point": "0"
-                }
-            }
-        ],
+        "highscores": [],
         "page": "space_shooter.php"
     },
     "2": {
         "name": "Mini Wars",
         "type": "akci\u00f3",
-        "rating": 3,
-        "text": "valami",
         "pic": "..\/media\/miniwars.png",
         "id": "2",
-        "highscores": [
-            {
-                "1": {
-                    "name": "asd",
-                    "point": "10"
-                }
-            },
-            {
-                "2": {
-                    "name": "asd",
-                    "point": "10"
-                }
-            },
-            {
-                "3": {
-                    "name": "asd",
-                    "point": "-20"
-                }
-            },
-            {
-                "4": {
-                    "name": "asd",
-                    "point": "180"
-                }
-            }
-        ],
+        "highscores": [],
         "page": "miniwars.php"
     },
     "3": {
         "name": "K\u00f6ss \u00f6ssze H\u00e1rmat",
         "type": "logikai",
-        "rating": 3,
-        "text": "valami",
         "id": "4",
         "pic": "..\/media\/connect3.png",
-        "highscores": [
-            {
-                "1": {
-                    "name": "asd",
-                    "point": "0"
-                }
-            },
-            {
-                "2": {
-                    "name": "Vida B\u00e1lint",
-                    "point": "550"
-                }
-            }
-        ],
+        "highscores": [],
         "page": "connect3.php"
     },
     "4": {
         "name": "K\u00e1rty\u00e1s mem\u00f3riaj\u00e1t\u00e9k",
         "type": "logikai",
-        "rating": 3,
-        "text": "valami",
         "id": "4",
         "pic": "..\/media\/memorygame.png",
         "highscores": [
             {
                 "1": {
-                    "name": "asd",
-                    "point": "0"
+                    "name": "Vida B\u00e1lint",
+                    "point": "700"
                 }
             },
             {
                 "2": {
-                    "name": "asd",
-                    "point": "0"
+                    "name": "Vida B\u00e1lint",
+                    "point": "655"
                 }
             },
             {
                 "3": {
-                    "name": "asd",
+                    "name": "Vida B\u00e1lint",
                     "point": "640"
-                }
-            },
-            {
-                "4": {
-                    "name": "asd",
-                    "point": "690"
                 }
             }
         ],

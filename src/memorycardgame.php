@@ -81,6 +81,17 @@ $savesJSON = json_encode($saves);
     </div>
     <div id="descriptionDiv" hidden>
         <h3>Leírás</h3>
+        <p>
+            A játék célja, hogy megtaláld a táblán az összes párt.
+        </p>
+        <p>
+            A játékot az egér segítségével tudod játszani. Kattints egy lefordított mezőre, majd egy másik lefordított mezőre.
+            Ha egyeznek a mezők, akkor felfordítva maradnak, ha nem akkor mind a kettő visszafordul.
+            50 pontot kapsz minden sikeresen megtalált párért. A játék végén a hátramaradt idő után minden másodpercért kapsz egy extra pontot.
+        </p>
+        <p>
+            A játéknak akkor van vége, ha lejár az idő, vagy ha megtaláltad az összes párt.
+        </p>
     </div>
     
     <div>
